@@ -83,8 +83,8 @@ github.com/rogpeppe/go-internal v1.3.0/go.mod h1:M8bDsm7K2OlrFYOpmOWEs/qY81heoFR
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.4.0 h1:2E4SXV/wtOkTonXsotYi4li6zVWxYlZuYNCXe9XRJyk=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
-github.com/theorders/aefire v0.0.19 h1:qkQQZf47gCmn96kKRdERTXaPDoO897KSkA2JPxPWsxY=
-github.com/theorders/aefire v0.0.19/go.mod h1:rld+0sUfCEzp46siRlFyp8PaUCB2J0OEMdQm9h862vk=
+github.com/theorders/aefire v0.0.24 h1:5G6TctlxtZEE/KUpox8y8T00O2E29st8xFjdXZC/WcE=
+github.com/theorders/aefire v0.0.24/go.mod h1:rld+0sUfCEzp46siRlFyp8PaUCB2J0OEMdQm9h862vk=
 github.com/thoas/go-funk v0.5.0 h1:XXFUVqX6xnIDqXxENFHBFS1X5AoT0EDs7HJq2krRfD8=
 github.com/thoas/go-funk v0.5.0/go.mod h1:+IWnUfUmFO1+WVYQWQtIJHeRRdaIyyYglZN7xzUPe4Q=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
