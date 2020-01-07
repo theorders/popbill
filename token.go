@@ -77,6 +77,8 @@ func ServiceToken(isTest bool, linkId, corpNum, secret, service string) (token *
 
 	token, err = builder.Build("*")
 
+	aefire.PanicIfError(err)
+
 	aefire.LogIfError(ioutil.WriteFile(keyPath, []byte(aefire.ToJson(*token)), os.ModePerm))
 
 	return
