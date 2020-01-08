@@ -81,7 +81,7 @@ func (customer *CashbillCustomer) Validate() error {
 	}
 
 	//지출증빙용
-	if customer.Usage == TradeUsageIncomeDeduction &&
+	if customer.Usage == TradeUsageProofOfExpenditure &&
 		!aefire.ValidateRRN(customer.IdentityNum) &&
 		!aefire.ValidateLocalCellPhoneNumber(customer.IdentityNum) &&
 		!aefire.ValidateCorpNum(customer.IdentityNum) {
