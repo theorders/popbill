@@ -1,7 +1,7 @@
 package popbill
 
 import (
-	"github.com/labstack/echo"
+	"errors"
 	"github.com/theorders/aefire"
 	"strconv"
 	"strings"
@@ -62,22 +62,22 @@ func (cashbill *CashbillCustomer) IdentityNumMasked() string {
 
 func (customer *CashbillCustomer) Validate() error {
 	if customer.Usage == "" {
-		return echo.NewHTTPError(400, "거래유형이 지정되지 않았습니다.")
+		return errors.New("거래유형이 지정되지 않았습니다")
 	}
 
 	if customer.IdentityNum == "" {
-		return echo.NewHTTPError(400, "고객 식별번호가 없습니다.")
+		return errors.New("고객 식별번호가 없습니다")
 	}
 
 	if customer.Transaction == nil || customer.Transaction.Supply == 0 || customer.Transaction.Sum == 0 {
-		return echo.NewHTTPError(400, "거래금액이 없습니다.")
+		return errors.New("거래금액이 없습니다")
 	}
 
 	//소득공제용
 	if customer.Usage == TradeUsageIncomeDeduction &&
 		!aefire.ValidateRRN(customer.IdentityNum) &&
 		!aefire.ValidateLocalCellPhoneNumber(customer.IdentityNum) {
-		return echo.NewHTTPError(400, "소득공제용 현금영수증 발행에는 고객 주민등록번호나 휴대전화번호가 필요합니다.")
+		return errors.New("소득공제용 현금영수증 발행에는 고객 주민등록번호나 휴대전화번호가 필요합니다")
 	}
 
 	//지출증빙용
@@ -85,7 +85,7 @@ func (customer *CashbillCustomer) Validate() error {
 		!aefire.ValidateRRN(customer.IdentityNum) &&
 		!aefire.ValidateLocalCellPhoneNumber(customer.IdentityNum) &&
 		!aefire.ValidateCorpNum(customer.IdentityNum) {
-		return echo.NewHTTPError(400, "소득공제용 현금영수증 발행에는 사업자등록번호, 주민등록번호 혹은 휴대전화번호가 필요합니다.")
+		return errors.New("소득공제용 현금영수증 발행에는 사업자등록번호, 주민등록번호 혹은 휴대전화번호가 필요합니다")
 	}
 
 	return nil
