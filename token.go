@@ -31,12 +31,12 @@ func (token SessionToken) ExpiresAt() time.Time {
 	return t
 }
 
-func ServiceToken(isTest bool, linkId, corpNum, secret, service string) (token *SessionToken, err error) {
+func (c *Client) ServiceToken(service string) (token *SessionToken, err error) {
 	if service == JoinService {
 		service = TaxinvoiceService
 	}
 
-	tokenKey := fmt.Sprintf("LINKHUB_%t_%s_%s_TOKEN", isTest, corpNum, service)
+	tokenKey := fmt.Sprintf("LINKHUB_%t_%s_%s_TOKEN", c.Test, c.CorpNum, service)
 	keyPath := "/tmp/" + tokenKey
 
 	if _, err := os.Stat(keyPath); err == nil {
@@ -60,7 +60,7 @@ func ServiceToken(isTest bool, linkId, corpNum, secret, service string) (token *
 	}
 
 
-	builder := Instance(linkId, corpNum, secret, isTest)
+	builder := c.Instance()
 
 	switch service {
 	case SMSService, LMSService:

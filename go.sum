@@ -85,6 +85,9 @@ github.com/stretchr/testify v1.4.0 h1:2E4SXV/wtOkTonXsotYi4li6zVWxYlZuYNCXe9XRJy
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/theorders/aefire v0.0.24 h1:5G6TctlxtZEE/KUpox8y8T00O2E29st8xFjdXZC/WcE=
 github.com/theorders/aefire v0.0.24/go.mod h1:rld+0sUfCEzp46siRlFyp8PaUCB2J0OEMdQm9h862vk=
+github.com/theorders/aefire v0.0.25/go.mod h1:rld+0sUfCEzp46siRlFyp8PaUCB2J0OEMdQm9h862vk=
+github.com/theorders/aefire v0.2.1 h1:my3M63DZmjle+t1yAZf9W35MrN6wAH9LCA/kfhBEZB4=
+github.com/theorders/aefire v0.2.1/go.mod h1:rld+0sUfCEzp46siRlFyp8PaUCB2J0OEMdQm9h862vk=
 github.com/thoas/go-funk v0.5.0 h1:XXFUVqX6xnIDqXxENFHBFS1X5AoT0EDs7HJq2krRfD8=
 github.com/thoas/go-funk v0.5.0/go.mod h1:+IWnUfUmFO1+WVYQWQtIJHeRRdaIyyYglZN7xzUPe4Q=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=

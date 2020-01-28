@@ -1,6 +1,7 @@
 package popbill
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"github.com/imroc/req"
@@ -9,18 +10,20 @@ import (
 )
 
 type Client struct {
-	test    bool
-	linkId  string
-	corpNum string
-	secret string
+	context.Context
+	Test    bool
+	LinkId  string
+	CorpNum string
+	Secret  string
 }
 
-func NewClient(test bool, linkId, corpNum, secret string) *Client {
+func NewClient(c context.Context, test bool, linkId, corpNum, secret string) *Client {
 	return &Client{
-		test:    test,
-		linkId:  linkId,
-		corpNum: corpNum,
-		secret: secret,
+		Context: c,
+		Test:    test,
+		LinkId:  linkId,
+		CorpNum: corpNum,
+		Secret:  secret,
 	}
 }
 
@@ -28,7 +31,7 @@ func (c *Client) Request(method, service, path string, body interface{}, headers
 
 	var token *SessionToken
 
-	token, err = ServiceToken(c.test, c.linkId, c.corpNum, c.secret, service)
+	token, err = c.ServiceToken(service)
 
 	if aefire.LogIfError(err) {
 		println("linkhub token issue failed:" + err.Error())
@@ -47,16 +50,18 @@ func (c *Client) Request(method, service, path string, body interface{}, headers
 
 	if method == http.MethodPost {
 		res, err = req.Post(
-			endpoint(c.test, service, path),
+			endpoint(c.Test, service, path),
 			req.BodyJSON(body),
-			req.Header(header))
+			req.Header(header),
+			c.Context)
 	} else {
 		m := aefire.ToMap(body)
 
 		res, err = req.Get(
-			endpoint(c.test, service, path),
+			endpoint(c.Test, service, path),
 			req.QueryParam(m),
-			req.Header(header))
+			req.Header(header),
+			c.Context)
 	}
 
 	if err != nil {

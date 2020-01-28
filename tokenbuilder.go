@@ -2,6 +2,7 @@ package popbill
 
 import (
 	"bytes"
+	"context"
 	"encoding/base64"
 	"encoding/json"
 	"errors"
@@ -13,6 +14,7 @@ import (
 )
 
 type TokenBuilder struct {
+	context.Context
 	ServiceURL      string
 	linkId          string
 	RecentServiceID string
@@ -23,16 +25,17 @@ type TokenBuilder struct {
 
 var instance *TokenBuilder
 
-func Instance(linkID, corpNum, secret string, isTest bool) *TokenBuilder {
+func (c *Client) Instance() *TokenBuilder {
 	if instance == nil {
 		instance = &TokenBuilder{}
 	}
 
-	instance.linkId = linkID
-	instance.accessId = corpNum
+	instance.Context = c.Context
+	instance.linkId = c.LinkId
+	instance.accessId = c.CorpNum
 	instance.ServiceURL = defaultServiceURL
-	instance.secret = secret
-	if isTest {
+	instance.secret = c.Secret
+	if c.Test {
 		instance.RecentServiceID = serviceIdTest
 	} else {
 		instance.RecentServiceID = serviceIDReal
@@ -105,7 +108,7 @@ func (builder *TokenBuilder) Build(forwardedIP string) (token *SessionToken, err
 		return nil, err
 	}
 
-	req, err := http.NewRequest(
+	req, err := http.NewRequestWithContext(builder.Context,
 		http.MethodPost,
 		builder.ServiceURL+uri,
 		bytes.NewReader(postData),
@@ -180,7 +183,7 @@ func (builder *TokenBuilder) Build(forwardedIP string) (token *SessionToken, err
 }
 
 func (builder *TokenBuilder) ServerTime() (string, error) {
-	res, err := req.Get(builder.ServiceURL+"/Time")
+	res, err := req.Get(builder.ServiceURL+"/Time", builder.Context)
 	if err != nil {
 		return "", errors.New("링크허브 서버 접속 실패: " + err.Error())
 	}
