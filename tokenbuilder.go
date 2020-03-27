@@ -64,7 +64,6 @@ func (builder *TokenBuilder) AddScopes(newScopes ...string) *TokenBuilder {
 }
 
 func (builder *TokenBuilder) Build(forwardedIP string) (token *SessionToken, err error) {
-	fmt.Printf("build")
 	if builder.RecentServiceID == "" {
 		return nil, errors.New("서비스아이디가 입력되지 않았습니다")
 	}
