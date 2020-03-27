@@ -99,7 +99,8 @@ type WordCloseDown struct {
 	State     string   `json:"state" firestore:"state"`
 }
 
-func (cd *CloseDown) ToWordCloseDown() (wcd WordCloseDown) {
+func (cd *CloseDown) ToWordCloseDown() (wcd *WordCloseDown) {
+	wcd = &WordCloseDown{}
 	wcd.CorpNum = cd.CorpNum
 	wcd.CheckDate = cd.CheckDate
 	wcd.StateDate = cd.StateDate
@@ -110,7 +111,8 @@ func (cd *CloseDown) ToWordCloseDown() (wcd WordCloseDown) {
 	return
 }
 
-func (wcd *WordCloseDown) ToCloseDown() (cd CloseDown) {
+func (wcd *WordCloseDown) ToCloseDown() (cd *CloseDown) {
+	cd = &CloseDown{}
 	cd.CorpNum = wcd.CorpNum
 	cd.CheckDate = wcd.CheckDate
 	cd.StateDate = wcd.StateDate
