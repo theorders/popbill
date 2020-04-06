@@ -14,9 +14,11 @@ type FaxReceiver struct {
 type FaxSendRequest struct {
 	Snd   string        `json:"snd"`
 	SndNm *string       `json:"snnm,omitempty"`
-	//SndDT *string       `json:"sndDT,omitempty"`
-	Rcvs  []FaxReceiver `json:"rcvs"`
+	Title *string       `json:"title,omitempty"`
 	FCnt  int           `json:"fCnt"`
+	SndDT *string       `json:"sndDT,omitempty"`
+	AdsYN bool          `json:"adsYN"`
+	Rcvs  []FaxReceiver `json:"rcvs"`
 }
 
 type FaxListResponse struct {
@@ -41,7 +43,7 @@ type FaxListResponse struct {
 		ReceiptDT      string   `json:"receiptDT"`
 		SendDT         string   `json:"sendDT"`
 		ResultDT       string   `json:"resultDT"`
-		SendResult     int   `json:"sendResult"`
+		SendResult     int      `json:"sendResult"`
 		FileNames      []string `json:"fileNames"`
 	} `json:"list"`
 }
