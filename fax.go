@@ -14,7 +14,7 @@ type FaxReceiver struct {
 type FaxSendRequest struct {
 	Snd   string        `json:"snd"`
 	SndNm *string       `json:"snnm,omitempty"`
-	SndDT *string       `json:"sndDT,omitempty"`
+	//SndDT *string       `json:"sndDT,omitempty"`
 	Rcvs  []FaxReceiver `json:"rcvs"`
 	FCnt  int           `json:"fCnt"`
 }
