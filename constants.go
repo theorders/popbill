@@ -4,6 +4,7 @@ const (
 	SMSService        = "SMS"
 	LMSService        = "LMS"
 	ATSService        = "ATS"
+	FAXService        = "FAX"
 	CloseDownService  = "CloseDown"
 	TaxinvoiceService = "Taxinvoice"
 	JoinService       = "Join"

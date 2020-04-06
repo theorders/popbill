@@ -67,6 +67,8 @@ func (c *Client) ServiceToken(service string) (token *SessionToken, err error) {
 		builder.AddScopes("150", "151", "152")
 	case ATSService:
 		builder.AddScopes("153", "154", "155")
+	case FAXService:
+		builder.AddScopes("160")
 	case CloseDownService:
 		builder.AddScopes("170")
 	case TaxinvoiceService:

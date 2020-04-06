@@ -82,6 +82,52 @@ func (c *Client) Request(method, service, path string, body interface{}, headers
 	return res, nil
 }
 
+func (c *Client) MultipartFormDataRequest(service, path string, params req.Param, files ...req.FileUpload) (res *req.Resp, err error) {
+
+	var token *SessionToken
+
+	token, err = c.ServiceToken(service)
+
+	if aefire.LogIfError(err) {
+		println("linkhub token issue failed:" + err.Error())
+		return
+	}
+
+	header := aefire.StringMapOf()
+
+	//ods.DebugLog("sessionToken : %s", token.SessionToken)
+
+	header["Authorization"] = "Bearer " + token.SessionToken
+	header["Content-Type"] = "application/json; charset=utf8"
+	header["Accept-Encoding"] = "application/json; charset=utf8"
+	header["x-pb-version"] = apiVersion
+	header["x-lh-forwarded"] = "*"
+
+	res, err = req.Post(
+		endpoint(c.Test, service, path),
+		c.Context,
+		req.Header(header),
+		params,
+		files)
+
+	if err != nil {
+		return res, err
+	}
+
+	defaultResponse := DefaultResponse{}
+
+	err = res.ToJSON(&defaultResponse)
+	if err != nil {
+		return res, err
+	}
+
+	if defaultResponse.Code < 0 {
+		return res, errors.New(fmt.Sprintf("[%d]%s", defaultResponse.Code, defaultResponse.Message))
+	}
+
+	return res, nil
+}
+
 func (c *Client) MethodOverrideRequest(
 	method, service, path string, body interface{}, overrideMethod string) (res *req.Resp, err error) {
 
