@@ -218,7 +218,7 @@ func (c *Client) GetCashbillInfo(mgtKey string) (cashbill *Cashbill, err *echo.H
 
 	cashbill = &Cashbill{}
 	if err := res.ToJSON(cashbill) ; err != nil{
-		return nil, aefire.NewEchoHttpError(500, err)
+		return nil, aefire.NewHttpError(500, err)
 	}
 
 	return cashbill, err
@@ -238,7 +238,7 @@ func (c *Client) GetCashbillDetail(mgtKey string) (m map[string]interface{}, err
 
 	m = aefire.MapOf()
 	if err := res.ToJSON(&m) ; err != nil{
-		return nil, aefire.NewEchoHttpError(500, err)
+		return nil, aefire.NewHttpError(500, err)
 	}
 
 	delete(m, "smssendYN")

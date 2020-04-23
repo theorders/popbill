@@ -37,7 +37,7 @@ func (c *Client) Request(method, service, path string, body interface{}, headers
 
 	if aefire.LogIfError(err) {
 		println("linkhub token issue failed:" + err.Error())
-		return nil, aefire.NewEchoHttpError(500, err)
+		return nil, aefire.NewHttpError(500, err)
 	}
 
 	header := aefire.StringMapOf(headers...)
@@ -103,7 +103,7 @@ func (c *Client) MultipartFormDataRequest(service, path string, params req.Param
 
 	if aefire.LogIfError(err) {
 		println("linkhub token issue failed:" + err.Error())
-		return nil, aefire.NewEchoHttpError(500, err)
+		return nil, aefire.NewHttpError(500, err)
 	}
 
 	header := aefire.StringMapOf()
@@ -124,14 +124,14 @@ func (c *Client) MultipartFormDataRequest(service, path string, params req.Param
 		files)
 
 	if err != nil {
-		return res, aefire.NewEchoHttpError(500, err)
+		return res, aefire.NewHttpError(500, err)
 	}
 
 	defaultResponse := DefaultResponse{}
 
 	err = res.ToJSON(&defaultResponse)
 	if err != nil {
-		return res, aefire.NewEchoHttpError(500, err)
+		return res, aefire.NewHttpError(500, err)
 	}
 
 	if res.Response().StatusCode / 100 == 4 ||  defaultResponse.Code < 0 {
