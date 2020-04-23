@@ -2,9 +2,8 @@ package popbill
 
 import (
 	"context"
-	"errors"
-	"fmt"
 	"github.com/imroc/req"
+	"github.com/labstack/echo/v4"
 	"github.com/theorders/aefire"
 	"net/http"
 )
@@ -27,15 +26,17 @@ func NewClient(c context.Context, test bool, linkId, corpNum, secret string) *Cl
 	}
 }
 
-func (c *Client) Request(method, service, path string, body interface{}, headers ...string) (res *req.Resp, err error) {
+func (c *Client) Request(method, service, path string, body interface{}, headers ...string) (*req.Resp, *echo.HTTPError) {
 
+	var res *req.Resp
 	var token *SessionToken
+	var err error
 
 	token, err = c.ServiceToken(service)
 
 	if aefire.LogIfError(err) {
 		println("linkhub token issue failed:" + err.Error())
-		return
+		return nil, aefire.NewEchoHttpError(500, err)
 	}
 
 	header := aefire.StringMapOf(headers...)
@@ -65,32 +66,43 @@ func (c *Client) Request(method, service, path string, body interface{}, headers
 	}
 
 	if err != nil {
-		return res, err
+		return res, &echo.HTTPError{
+			Code:     500,
+			Message:  err.Error(),
+			Internal: err,
+		}
 	}
 
 	defaultResponse := DefaultResponse{}
 
 	err = res.ToJSON(&defaultResponse)
 	if err != nil {
-		return res, err
+		return res, &echo.HTTPError{
+			Code:     500,
+			Message:  err.Error(),
+			Internal: err,
+		}
 	}
 
-	if defaultResponse.Code < 0 {
-		return res, errors.New(fmt.Sprintf("[%d]%s", defaultResponse.Code, defaultResponse.Message))
+
+	if res.Response().StatusCode / 100 == 4 ||  defaultResponse.Code < 0 {
+		return res, echo.NewHTTPError(400, defaultResponse.Message)
 	}
 
 	return res, nil
 }
 
-func (c *Client) MultipartFormDataRequest(service, path string, params req.Param, files ...req.FileUpload) (res *req.Resp, err error) {
+func (c *Client) MultipartFormDataRequest(service, path string, params req.Param, files ...req.FileUpload) (*req.Resp, *echo.HTTPError) {
 
+	var res *req.Resp
 	var token *SessionToken
+	var err error
 
 	token, err = c.ServiceToken(service)
 
 	if aefire.LogIfError(err) {
 		println("linkhub token issue failed:" + err.Error())
-		return
+		return nil, aefire.NewEchoHttpError(500, err)
 	}
 
 	header := aefire.StringMapOf()
@@ -111,25 +123,25 @@ func (c *Client) MultipartFormDataRequest(service, path string, params req.Param
 		files)
 
 	if err != nil {
-		return res, err
+		return res, aefire.NewEchoHttpError(500, err)
 	}
 
 	defaultResponse := DefaultResponse{}
 
 	err = res.ToJSON(&defaultResponse)
 	if err != nil {
-		return res, err
+		return res, aefire.NewEchoHttpError(500, err)
 	}
 
-	if defaultResponse.Code < 0 {
-		return res, errors.New(fmt.Sprintf("[%d]%s", defaultResponse.Code, defaultResponse.Message))
+	if res.Response().StatusCode / 100 == 4 ||  defaultResponse.Code < 0 {
+		return res, echo.NewHTTPError(400, defaultResponse.Message)
 	}
 
 	return res, nil
 }
 
 func (c *Client) MethodOverrideRequest(
-	method, service, path string, body interface{}, overrideMethod string) (res *req.Resp, err error) {
+	method, service, path string, body interface{}, overrideMethod string) (res *req.Resp, err *echo.HTTPError) {
 
 	return c.Request(
 		method,

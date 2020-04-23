@@ -79,8 +79,6 @@ func (c *Client) ServiceToken(service string) (token *SessionToken, err error) {
 
 	token, err = builder.Build("*")
 
-	aefire.PanicIfError(err)
-
 	aefire.LogIfError(ioutil.WriteFile(keyPath, []byte(aefire.ToJson(*token)), os.ModePerm))
 
 	return

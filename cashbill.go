@@ -1,6 +1,7 @@
 package popbill
 
 import (
+	"github.com/labstack/echo/v4"
 	"github.com/theorders/aefire"
 	"net/http"
 	"strconv"
@@ -166,7 +167,7 @@ func (b *Cashbill) HasTaxationError(taxType TaxType) bool {
 	}
 }
 
-func (c *Client) CashbillIssue(cashbill *Cashbill) error {
+func (c *Client) CashbillIssue(cashbill *Cashbill) *echo.HTTPError {
 	_, err := c.MethodOverrideRequest(http.MethodPost,
 		CashbillService,
 		"",
@@ -179,7 +180,7 @@ func (c *Client) CashbillIssue(cashbill *Cashbill) error {
 	return err
 }
 
-func (c *Client) CashbillRevokeIssue(revoke *RevokeIssue) error {
+func (c *Client) CashbillRevokeIssue(revoke *RevokeIssue) *echo.HTTPError {
 	_, err := c.MethodOverrideRequest(http.MethodPost,
 		CashbillService,
 		"",
@@ -192,7 +193,7 @@ func (c *Client) CashbillRevokeIssue(revoke *RevokeIssue) error {
 	return err
 }
 
-func (c *Client) CashbillCancel(mgtKey string) error {
+func (c *Client) CashbillCancel(mgtKey string) *echo.HTTPError {
 	_, err := c.MethodOverrideRequest(
 		http.MethodPost,
 		CashbillService,
@@ -203,7 +204,7 @@ func (c *Client) CashbillCancel(mgtKey string) error {
 	return err
 }
 
-func (c *Client) GetCashbillInfo(mgtKey string) (cashbill *Cashbill, err error) {
+func (c *Client) GetCashbillInfo(mgtKey string) (cashbill *Cashbill, err *echo.HTTPError) {
 	res, err := c.Request(
 		http.MethodGet,
 		CashbillService,
@@ -216,12 +217,14 @@ func (c *Client) GetCashbillInfo(mgtKey string) (cashbill *Cashbill, err error) 
 	}
 
 	cashbill = &Cashbill{}
-	err = res.ToJSON(cashbill)
+	if err := res.ToJSON(cashbill) ; err != nil{
+		return nil, aefire.NewEchoHttpError(500, err)
+	}
 
 	return cashbill, err
 }
 
-func (c *Client) GetCashbillDetail(mgtKey string) (m map[string]interface{}, err error) {
+func (c *Client) GetCashbillDetail(mgtKey string) (m map[string]interface{}, err *echo.HTTPError) {
 	res, err := c.Request(
 		http.MethodGet,
 		CashbillService,
@@ -234,10 +237,8 @@ func (c *Client) GetCashbillDetail(mgtKey string) (m map[string]interface{}, err
 	}
 
 	m = aefire.MapOf()
-	err = res.ToJSON(&m)
-
-	if err != nil {
-		return nil, err
+	if err := res.ToJSON(&m) ; err != nil{
+		return nil, aefire.NewEchoHttpError(500, err)
 	}
 
 	delete(m, "smssendYN")
