@@ -123,7 +123,7 @@ func (wcd *WordCloseDown) ToCloseDown() (cd *CloseDown) {
 	return
 }
 
-func (c *Client) GetCloseDown(cn string) (*CloseDown, *echo.HTTPError) {
+func (c *Client) GetCloseDown(cn string) (*CloseDown, error) {
 	res, err := c.Request(
 		http.MethodGet,
 		CloseDownService,

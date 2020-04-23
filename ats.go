@@ -1,13 +1,12 @@
 package popbill
 
 import (
-	"github.com/labstack/echo/v4"
 	"github.com/theorders/aefire"
 	"net/http"
 )
 
 
-func (c *Client) SendATS(template *ATSTemplate) (receipt *Receipt, err *echo.HTTPError) {
+func (c *Client) SendATS(template *ATSTemplate) (receipt *Receipt, err error) {
 	res, err := c.Request(
 		http.MethodPost,
 		ATSService,

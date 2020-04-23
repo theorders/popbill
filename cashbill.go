@@ -1,7 +1,6 @@
 package popbill
 
 import (
-	"github.com/labstack/echo/v4"
 	"github.com/theorders/aefire"
 	"net/http"
 	"strconv"
@@ -167,7 +166,7 @@ func (b *Cashbill) HasTaxationError(taxType TaxType) bool {
 	}
 }
 
-func (c *Client) CashbillIssue(cashbill *Cashbill) *echo.HTTPError {
+func (c *Client) CashbillIssue(cashbill *Cashbill) error {
 	_, err := c.MethodOverrideRequest(http.MethodPost,
 		CashbillService,
 		"",
@@ -180,7 +179,7 @@ func (c *Client) CashbillIssue(cashbill *Cashbill) *echo.HTTPError {
 	return err
 }
 
-func (c *Client) CashbillRevokeIssue(revoke *RevokeIssue) *echo.HTTPError {
+func (c *Client) CashbillRevokeIssue(revoke *RevokeIssue) error {
 	_, err := c.MethodOverrideRequest(http.MethodPost,
 		CashbillService,
 		"",
@@ -193,7 +192,7 @@ func (c *Client) CashbillRevokeIssue(revoke *RevokeIssue) *echo.HTTPError {
 	return err
 }
 
-func (c *Client) CashbillCancel(mgtKey string) *echo.HTTPError {
+func (c *Client) CashbillCancel(mgtKey string) error {
 	_, err := c.MethodOverrideRequest(
 		http.MethodPost,
 		CashbillService,
@@ -204,7 +203,7 @@ func (c *Client) CashbillCancel(mgtKey string) *echo.HTTPError {
 	return err
 }
 
-func (c *Client) GetCashbillInfo(mgtKey string) (cashbill *Cashbill, err *echo.HTTPError) {
+func (c *Client) GetCashbillInfo(mgtKey string) (cashbill *Cashbill, err error) {
 	res, err := c.Request(
 		http.MethodGet,
 		CashbillService,
@@ -224,7 +223,7 @@ func (c *Client) GetCashbillInfo(mgtKey string) (cashbill *Cashbill, err *echo.H
 	return cashbill, err
 }
 
-func (c *Client) GetCashbillDetail(mgtKey string) (m map[string]interface{}, err *echo.HTTPError) {
+func (c *Client) GetCashbillDetail(mgtKey string) (m map[string]interface{}, err error) {
 	res, err := c.Request(
 		http.MethodGet,
 		CashbillService,

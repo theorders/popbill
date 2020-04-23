@@ -1,12 +1,11 @@
 package popbill
 
 import (
-	"github.com/labstack/echo/v4"
 	"github.com/theorders/aefire"
 	"net/http"
 )
 
-func (c *Client)SendLMS(rcvNum, messaage string) (receipt *Receipt, err *echo.HTTPError) {
+func (c *Client)SendLMS(rcvNum, messaage string) (receipt *Receipt, err error) {
 	rcvNum = aefire.LocalizePhoneNumber(rcvNum, 82)
 
 	res, err := c.Request(

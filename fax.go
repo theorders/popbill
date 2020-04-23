@@ -49,7 +49,7 @@ type FaxListResponse struct {
 	} `json:"list"`
 }
 
-func (c *Client) FAXSend(sendRequest FaxSendRequest, files ...req.FileUpload) (*Receipt, *echo.HTTPError) {
+func (c *Client) FAXSend(sendRequest FaxSendRequest, files ...req.FileUpload) (*Receipt, error) {
 	for i, r := range sendRequest.Rcvs {
 		sendRequest.Rcvs[i].Rcvnm = aefire.LocalizePhoneNumber(r.Rcvnm, 82)
 	}
@@ -74,7 +74,7 @@ func (c *Client) FAXSend(sendRequest FaxSendRequest, files ...req.FileUpload) (*
 	return receipt, err
 }
 
-func (c *Client) FaxList(SDate, EDate string, Page, PerPage int) (*FaxListResponse, *echo.HTTPError) {
+func (c *Client) FaxList(SDate, EDate string, Page, PerPage int) (*FaxListResponse, error) {
 	res, err := c.Request(http.MethodGet,
 		FAXService,
 		"/Search",

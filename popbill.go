@@ -27,7 +27,7 @@ func NewClient(c context.Context, test bool, linkId, corpNum, secret string) *Cl
 	}
 }
 
-func (c *Client) Request(method, service, path string, body interface{}, headers ...string) (*req.Resp, *echo.HTTPError) {
+func (c *Client) Request(method, service, path string, body interface{}, headers ...string) (*req.Resp, error) {
 
 	var res *req.Resp
 	var token *SessionToken
@@ -93,7 +93,7 @@ func (c *Client) Request(method, service, path string, body interface{}, headers
 	return res, nil
 }
 
-func (c *Client) MultipartFormDataRequest(service, path string, params req.Param, files ...req.FileUpload) (*req.Resp, *echo.HTTPError) {
+func (c *Client) MultipartFormDataRequest(service, path string, params req.Param, files ...req.FileUpload) (*req.Resp, error) {
 
 	var res *req.Resp
 	var token *SessionToken
@@ -142,7 +142,7 @@ func (c *Client) MultipartFormDataRequest(service, path string, params req.Param
 }
 
 func (c *Client) MethodOverrideRequest(
-	method, service, path string, body interface{}, overrideMethod string) (res *req.Resp, err *echo.HTTPError) {
+	method, service, path string, body interface{}, overrideMethod string) (res *req.Resp, err error) {
 
 	return c.Request(
 		method,
