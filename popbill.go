@@ -2,6 +2,7 @@ package popbill
 
 import (
 	"context"
+	"fmt"
 	"github.com/imroc/req"
 	"github.com/labstack/echo/v4"
 	"github.com/theorders/aefire"
@@ -134,7 +135,7 @@ func (c *Client) MultipartFormDataRequest(service, path string, params req.Param
 	}
 
 	if res.Response().StatusCode / 100 == 4 ||  defaultResponse.Code < 0 {
-		return res, echo.NewHTTPError(400, defaultResponse.Message)
+		return res, echo.NewHTTPError(400, fmt.Sprintf("[%d]%s", defaultResponse.Code, defaultResponse.Message))
 	}
 
 	return res, nil
