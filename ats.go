@@ -1,12 +1,13 @@
 package popbill
 
 import (
+	"github.com/labstack/echo/v4"
 	"github.com/theorders/aefire"
 	"net/http"
 )
 
 
-func (c *Client) SendATS(template *ATSTemplate) (receipt *Receipt, err error) {
+func (c *Client) SendATS(template *ATSTemplate) (receipt *Receipt, err *echo.HTTPError) {
 	res, err := c.Request(
 		http.MethodPost,
 		ATSService,
@@ -24,11 +25,13 @@ func (c *Client) SendATS(template *ATSTemplate) (receipt *Receipt, err error) {
 			}))
 
 	if err != nil {
-		return
+		return nil, err
 	}
 
 	receipt = &Receipt{}
-	res.ToJSON(receipt)
+	if err := res.ToJSON(receipt) ; err != nil{
+		return nil, aefire.NewHttpError(500, err)
+	}
 
 	return receipt, err
 }

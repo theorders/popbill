@@ -1,7 +1,7 @@
 package popbill
 
 import (
-	"errors"
+	"github.com/labstack/echo/v4"
 	"github.com/theorders/aefire"
 	"net/http"
 )
@@ -123,21 +123,21 @@ func (wcd *WordCloseDown) ToCloseDown() (cd *CloseDown) {
 	return
 }
 
-func (c *Client) GetCloseDown(cn string) (closeDown *CloseDown, err error) {
+func (c *Client) GetCloseDown(cn string) (*CloseDown, *echo.HTTPError) {
 	res, err := c.Request(
 		http.MethodGet,
 		CloseDownService,
 		"",
 		aefire.UrlValuesOf("CN", cn))
 
-	if aefire.LogIfError(err) {
-		return nil, errors.New("홈택스 중계서버에 연결하지 못했습니다")
+	if err != nil {
+		return nil, err
 	}
 
-	closeDown = &CloseDown{}
+	closeDown := &CloseDown{}
 
-	if aefire.LogIfError(res.ToJSON(closeDown)) {
-		return nil, errors.New("조회 결과를 해석하지 못했습니다")
+	if err := res.ToJSON(closeDown) ; err != nil {
+		return nil, aefire.NewHttpError(500, err)
 	}
 
 	return closeDown, err

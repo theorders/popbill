@@ -1,11 +1,12 @@
 package popbill
 
 import (
+	"github.com/labstack/echo/v4"
 	"github.com/theorders/aefire"
 	"net/http"
 )
 
-func (c *Client)SendSMS(rcvNum, messaage string) (receipt *Receipt, err error) {
+func (c *Client)SendSMS(rcvNum, messaage string) (receipt *Receipt, err *echo.HTTPError) {
 	rcvNum = aefire.LocalizePhoneNumber(rcvNum, 82)
 
 	res, err := c.Request(
@@ -26,7 +27,9 @@ func (c *Client)SendSMS(rcvNum, messaage string) (receipt *Receipt, err error) {
 	}
 
 	receipt = &Receipt{}
-	err = res.ToJSON(receipt)
+	if err := res.ToJSON(receipt) ; err != nil{
+		return nil, aefire.NewHttpError(err)
+	}
 
 	return receipt, err
 }

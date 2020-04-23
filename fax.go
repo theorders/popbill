@@ -2,6 +2,7 @@ package popbill
 
 import (
 	"github.com/imroc/req"
+	"github.com/labstack/echo/v4"
 	"github.com/theorders/aefire"
 	"net/http"
 )
@@ -48,7 +49,7 @@ type FaxListResponse struct {
 	} `json:"list"`
 }
 
-func (c *Client) FAXSend(sendRequest FaxSendRequest, files ...req.FileUpload) (receipt *Receipt, err error) {
+func (c *Client) FAXSend(sendRequest FaxSendRequest, files ...req.FileUpload) (*Receipt, *echo.HTTPError) {
 	for i, r := range sendRequest.Rcvs {
 		sendRequest.Rcvs[i].Rcvnm = aefire.LocalizePhoneNumber(r.Rcvnm, 82)
 	}
@@ -65,13 +66,15 @@ func (c *Client) FAXSend(sendRequest FaxSendRequest, files ...req.FileUpload) (r
 		return nil, err
 	}
 
-	receipt = &Receipt{}
-	err = res.ToJSON(receipt)
+	receipt := &Receipt{}
+	if err := res.ToJSON(receipt) ; err != nil{
+		return nil, echo.NewHTTPError(500, err)
+	}
 
 	return receipt, err
 }
 
-func (c *Client) FaxList(SDate, EDate string, Page, PerPage int) (*FaxListResponse, error) {
+func (c *Client) FaxList(SDate, EDate string, Page, PerPage int) (*FaxListResponse, *echo.HTTPError) {
 	res, err := c.Request(http.MethodGet,
 		FAXService,
 		"/Search",
@@ -86,7 +89,9 @@ func (c *Client) FaxList(SDate, EDate string, Page, PerPage int) (*FaxListRespon
 	}
 
 	resData := FaxListResponse{}
-	err = res.ToJSON(&resData)
+	if err := res.ToJSON(&resData) ; err != nil{
+		return nil, echo.NewHTTPError(500, err)
+	}
 
 	return &resData, err
 }
