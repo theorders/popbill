@@ -92,6 +92,7 @@ github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81P
 github.com/theorders/aefire v0.2.43 h1:In/jCsXNP5mG7vNaEANwLPqIs2/NsWIWL4FnSwgp4WQ=
 github.com/theorders/aefire v0.2.43/go.mod h1:ESn+SdV4KORQYhYN1+zNdsZNe7RUIr6cwXnzl8pHnSc=
 github.com/theorders/aefire v0.2.44/go.mod h1:ESn+SdV4KORQYhYN1+zNdsZNe7RUIr6cwXnzl8pHnSc=
+github.com/theorders/aefire v0.2.45 h1:ziBuM4CXQBwctK0bf7AsaJ9vkl1Fl7UrqLIvfQlYZy8=
 github.com/theorders/aefire v0.2.45/go.mod h1:ESn+SdV4KORQYhYN1+zNdsZNe7RUIr6cwXnzl8pHnSc=
 github.com/thoas/go-funk v0.5.0 h1:XXFUVqX6xnIDqXxENFHBFS1X5AoT0EDs7HJq2krRfD8=
 github.com/thoas/go-funk v0.5.0/go.mod h1:+IWnUfUmFO1+WVYQWQtIJHeRRdaIyyYglZN7xzUPe4Q=

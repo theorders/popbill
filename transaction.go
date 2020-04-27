@@ -23,7 +23,7 @@ func (trans *Transaction) Sub(target *Transaction) {
 }
 
 
-func NewFromSupply(supply int64, taxType TaxType) *Transaction {
+func TransactionFromSupply(supply int64, taxType TaxType) *Transaction {
 	t := &Transaction{
 		Supply:supply,
 	}
@@ -37,7 +37,7 @@ func NewFromSupply(supply int64, taxType TaxType) *Transaction {
 	return t
 }
 
-func NewFromSum(sum int64, taxType TaxType) *Transaction {
+func TransactionFromSum(sum int64, taxType TaxType) *Transaction {
 	t := &Transaction{
 		Sum: sum,
 	}
