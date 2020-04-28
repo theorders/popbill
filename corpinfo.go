@@ -24,22 +24,22 @@ type CorpInfo struct {
 }
 
 type CashbillCustomer struct {
-	IdentityNum string       `json:"identityNum" firestore:"identityNum"`
-	Name        string       `json:"name" firestore:"name"`
-	Email       string       `json:"email" firestore:"email"`
-	ItemName    string       `json:"itemName" firestore:"itemName"`
-	Usage       TradeUsage   `json:"usage" firestore:"usage"`
-	TradeOpt    TradeOpt     `json:"tradeOpt,omitempty" firestore:"tradeOpt"` //(필수)
-	Transaction *Transaction `json:"transaction" firestore:"transaction"`
-	ServiceFee  int64        `json:"serviceFee" firestore:"serviceFee"`
-	Aid         *string      `json:"aid,omitempty" firestore:"aid,omitempty"`
+	IdentityNum  string       `json:"identityNum" firestore:"identityNum"`
+	CustomerName string       `json:"customerName" firestore:"customerName"`
+	Email        string       `json:"email" firestore:"email"`
+	ItemName     string       `json:"itemName" firestore:"itemName"`
+	Usage        TradeUsage   `json:"usage" firestore:"usage"`
+	TradeOpt     TradeOpt     `json:"tradeOpt,omitempty" firestore:"tradeOpt"` //(필수)
+	Transaction  *Transaction `json:"transaction" firestore:"transaction"`
+	ServiceFee   int64        `json:"serviceFee" firestore:"serviceFee"`
+	Aid          *string      `json:"aid,omitempty" firestore:"aid,omitempty"`
 }
 
 func (cashbill *CashbillCustomer) NameOrIdentityNumMasked() string {
 	if cashbill.IdentityNum == SelfIssueNum {
 		return SelfIssueUsage
-	} else if cashbill.Name != "" {
-		return cashbill.Name
+	} else if cashbill.CustomerName != "" {
+		return cashbill.CustomerName
 	} else {
 		return cashbill.IdentityNumMasked()
 	}
@@ -129,7 +129,7 @@ func (info *CorpInfo) CashbillTo(mgtKey string, customer CashbillCustomer, trans
 		TradeUsage:        customer.Usage,
 		TradeOpt:          customer.TradeOpt,
 		IdentityNum:       customer.IdentityNum,
-		CustomerName:      customer.Name,
+		CustomerName:      customer.CustomerName,
 		Email:             customer.Email,
 		OrderNumber:       mgtKey,
 		ItemName:          customer.ItemName,
@@ -175,5 +175,3 @@ func (info *CorpInfo) IsValid() bool {
 func (info *CorpInfo) IsBizTypeTransport() bool {
 	return strings.Contains(info.BizType, "운수")
 }
-
-
