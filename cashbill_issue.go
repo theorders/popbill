@@ -7,7 +7,7 @@ type CashbillIssueRequest struct {
 	ItemName    string `json:"itemName" firestore:"itemName"`
 	TotalAmount int64  `json:"totalAmount" firestore:"totalAmount"`
 
-	TradeUsage   `json:"usage" firestore:"usage"` //소득공제용, 지출증빙용
+	TradeUsage   `json:"tradeUsage" firestore:"tradeUsage"` //소득공제용, 지출증빙용
 	TradeOpt     `json:"tradeOpt,omitempty" firestore:"tradeOpt"` //일반, 도서공연, 대중교통
 	TaxationType `json:"taxationType" json:"taxationType"` //과세, 비과세
 }
