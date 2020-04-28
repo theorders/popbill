@@ -74,6 +74,11 @@ func (customer *CashbillCustomer) Validate() error {
 	}
 
 	//소득공제용
+	if customer.Usage == TradeUsageIncomeDeduction &&
+		!aefire.ValidateRRN(customer.IdentityNum) &&
+		!aefire.ValidateLocalCellPhoneNumber(customer.IdentityNum) {
+		return errors.New("소득공제용 현금영수증 발행에는 고객 주민등록번호나 휴대전화번호가 필요합니다")
+	}
 	//if customer.Usage == TradeUsageIncomeDeduction &&
 	//	!aefire.ValidateRRN(customer.IdentityNum) &&
 	//	!aefire.ValidateLocalCellPhoneNumber(customer.IdentityNum) {
@@ -81,6 +86,12 @@ func (customer *CashbillCustomer) Validate() error {
 	//}
 
 	//지출증빙용
+	if customer.Usage == TradeUsageProofOfExpenditure &&
+		!aefire.ValidateRRN(customer.IdentityNum) &&
+		!aefire.ValidateLocalCellPhoneNumber(customer.IdentityNum) &&
+		!aefire.ValidateCorpNum(customer.IdentityNum) {
+		return errors.New("소득공제용 현금영수증 발행에는 사업자등록번호, 주민등록번호 혹은 휴대전화번호가 필요합니다")
+	}
 	//if customer.Usage == TradeUsageProofOfExpenditure &&
 	//	!aefire.ValidateRRN(customer.IdentityNum) &&
 	//	!aefire.ValidateLocalCellPhoneNumber(customer.IdentityNum) &&
@@ -95,73 +106,6 @@ func (info *CorpInfo) CashbillTo(mgtKey string, customer CashbillCustomer, trans
 	if trans == nil {
 		trans = &Transaction{}
 	}
-
-	taxType := TaxationTypeWithTax
-
-	if trans.VAT == 0 {
-		taxType = TaxationTypeNoTax
-	}
-
-	return &Cashbill{
-		MgtKey:            mgtKey,
-		Tax:               strconv.Itoa(int(trans.VAT)),
-		SupplyCost:        strconv.Itoa(int(trans.Supply)),
-		TotalAmount:       strconv.Itoa(int(trans.Sum)),
-		ServiceFee:        strconv.Itoa(int(customer.ServiceFee)),
-		FranchiseCorpNum:  info.CorpNum,
-		FranchiseAddr:     info.Addr,
-		FranchiseCEOName:  info.CEOName,
-		FranchiseCorpName: info.CorpOrCeoName(),
-		FranchiseTEL:      aefire.LocalizePhoneNumber(info.TEL, 82),
-		TaxationType:      taxType,
-		TradeType:         TradeTypeApproval,
-		TradeUsage:        customer.Usage,
-		TradeOpt:          customer.TradeOpt,
-		IdentityNum:       customer.IdentityNum,
-		CustomerName:      customer.Name,
-		Email:             customer.Email,
-		OrderNumber:       mgtKey,
-		ItemName:          customer.ItemName,
-		Aid:               customer.Aid,
-	}
-
-}
-
-func (info *CorpInfo) CashbillToRequest(mgtKey string, request CashbillIssueRequest) *Cashbill {
-	var trans *Transaction
-
-	if  request.TaxationType == TaxationTypeWithTax {
-		trans = TransactionFromSum(request.TotalAmount, TaxTypeNormal)
-	} else {
-		trans = TransactionFromSum(request.TotalAmount, TaxTypeFree)
-	}
-
-	return &Cashbill{
-		MgtKey:            mgtKey,
-		Tax:               strconv.Itoa(int(trans.VAT)),
-		SupplyCost:        strconv.Itoa(int(trans.Supply)),
-		TotalAmount:       strconv.Itoa(int(trans.Sum)),
-		ServiceFee:        "0",
-		FranchiseCorpNum:  info.CorpNum,
-		FranchiseAddr:     info.Addr,
-		FranchiseCEOName:  info.CEOName,
-		FranchiseCorpName: info.CorpOrCeoName(),
-		FranchiseTEL:      aefire.LocalizePhoneNumber(info.TEL, 82),
-		TaxationType:      request.TaxationType,
-		TradeType:         TradeTypeApproval,
-		TradeUsage:        request.TradeUsage,
-		TradeOpt:          request.TradeOpt,
-		IdentityNum:       request.IdentityNum,
-		CustomerName:      request.Name,
-		Email:             request.Email,
-		OrderNumber:       mgtKey,
-		ItemName:          request.ItemName,
-		Aid:               nil,
-	}
-
-}
-
-func (info *CorpInfo) IssueCashbillTo(mgtKey string, customer CashbillCustomer) *Cashbill {
 
 	taxType := TaxationTypeWithTax
 
@@ -231,4 +175,5 @@ func (info *CorpInfo) IsValid() bool {
 func (info *CorpInfo) IsBizTypeTransport() bool {
 	return strings.Contains(info.BizType, "운수")
 }
+
 
