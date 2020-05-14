@@ -16,7 +16,6 @@ type CashbillIssueRequest struct {
 func (r *CashbillIssueRequest) ToCustomer() (c *CashbillCustomer) {
 	c = &CashbillCustomer{
 		IdentityNum:  r.IdentityNum,
-		Name:         r.Name,
 		Email:        r.Email,
 		ItemName:     r.ItemName,
 		CustomerName: r.CustomerName,
