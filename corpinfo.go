@@ -25,9 +25,9 @@ type CorpInfo struct {
 
 type CashbillCustomer struct {
 	IdentityNum  string       `json:"identityNum" firestore:"identityNum"`
-	CustomerName string       `json:"customerName" firestore:"customerName"`
 	Email        string       `json:"email" firestore:"email"`
 	ItemName     string       `json:"itemName" firestore:"itemName"`
+	CustomerName string       `json:"customerName" firestore:"customerName"`
 	Usage        TradeUsage   `json:"usage" firestore:"usage"`
 	TradeOpt     TradeOpt     `json:"tradeOpt,omitempty" firestore:"tradeOpt"` //(필수)
 	Transaction  *Transaction `json:"transaction" firestore:"transaction"`
@@ -62,7 +62,7 @@ func (cashbill *CashbillCustomer) IdentityNumMasked() string {
 
 func (customer *CashbillCustomer) Validate() error {
 	if customer.Usage == "" {
-		return errors.New("거래유형이 지정되지 않았습니다")
+		return errors.New("발급용도가 지정되지 않았습니다")
 	}
 
 	if customer.IdentityNum == "" {
