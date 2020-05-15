@@ -10,7 +10,7 @@ import (
 type Issue struct {
 	Customer
 
-	CorpNm    string    `json:"corpNum" firestore:"corpNum"`
+	CorpNum   string    `json:"corpNum" firestore:"corpNum"`
 	TradeType TradeType `json:"tradeType" firestore:"tradeType"`
 
 	//거래관련
@@ -27,9 +27,9 @@ type Issue struct {
 	FranchiseTEL      string `json:"franchiseTEL" firestore:"franchiseTEL"`
 
 	//취소발행 관련
-	OrgMgtKey     string      `json:"orgMgtKey,omitempty" firestore:"orgMgtKey,omitempty"` //(필수)파트너 문서관리번호
-	OrgConfirmNum string      `json:"orgConfirmNum,omitempty" firestore:"orgConfirmNum,omitempty"`
-	OrgTradeDate  string      `json:"orgTradeDate,omitempty" firestore:"orgTradeDate,omitempty"`
+	OrgMgtKey     string `json:"orgMgtKey,omitempty" firestore:"orgMgtKey,omitempty"` //(필수)파트너 문서관리번호
+	OrgConfirmNum string `json:"orgConfirmNum,omitempty" firestore:"orgConfirmNum,omitempty"`
+	OrgTradeDate  string `json:"orgTradeDate,omitempty" firestore:"orgTradeDate,omitempty"`
 }
 
 func (i *Issue) Validate() error {
@@ -54,7 +54,7 @@ func (i *Issue) Validate() error {
 	if i.TradeUsage == TradeUsageIncomeDeduction &&
 		!aefire.ValidateRRN(i.IdentityNum) &&
 		!aefire.ValidateLocalCellPhoneNumber(i.IdentityNum) &&
-		(len(i.IdentityNum) < 13 || len(i.IdentityNum) > 19){
+		(len(i.IdentityNum) < 13 || len(i.IdentityNum) > 19) {
 		return errors.New("소득공제용 현금영수증 발급대상고객의 주민등록번호, 휴대전화번호 혹은 카드번호가 필요합니다")
 	}
 
@@ -63,14 +63,12 @@ func (i *Issue) Validate() error {
 		!aefire.ValidateRRN(i.IdentityNum) &&
 		!aefire.ValidateLocalCellPhoneNumber(i.IdentityNum) &&
 		!aefire.ValidateCorpNum(i.IdentityNum) &&
-		(len(i.IdentityNum) < 13 || len(i.IdentityNum) > 19){
+		(len(i.IdentityNum) < 13 || len(i.IdentityNum) > 19) {
 		return errors.New("지출증빙용 현금영수증 발급대상고객의 사업자등록번호, 휴대전화번호, 주민등록번호 혹은 카드번호가 필요합니다")
 	}
 
 	return nil
 }
-
-
 
 func (i *Issue) Regist(pb *popbill.Client) error {
 	_, err := pb.MethodOverrideRequest(http.MethodPost,
@@ -78,7 +76,6 @@ func (i *Issue) Regist(pb *popbill.Client) error {
 		"",
 		i,
 		"ISSUE")
-
 
 	return err
 }
@@ -117,7 +114,6 @@ func (i *Issue) CancelAndDelete(pb *popbill.Client) error {
 	return nil
 }
 
-
 func (i *Issue) Info(pb *popbill.Client) (b *Cashbill, err error) {
 	res, err := pb.Request(
 		http.MethodGet,
@@ -131,19 +127,18 @@ func (i *Issue) Info(pb *popbill.Client) (b *Cashbill, err error) {
 	}
 
 	b = &Cashbill{}
-	if err := res.ToJSON(b) ; err != nil{
+	if err := res.ToJSON(b); err != nil {
 		return nil, aefire.NewHttpError(500, err)
 	}
 
 	return b, err
 }
 
-
 func (i *Issue) Detail(pb *popbill.Client) (b *Cashbill, err error) {
 	res, err := pb.Request(
 		http.MethodGet,
 		popbill.CashbillService,
-		(i.MgtKey) + "?Detail",
+		(i.MgtKey)+"?Detail",
 		nil,
 	)
 
@@ -152,11 +147,9 @@ func (i *Issue) Detail(pb *popbill.Client) (b *Cashbill, err error) {
 	}
 
 	b = &Cashbill{}
-	if err := res.ToJSON(b) ; err != nil{
+	if err := res.ToJSON(b); err != nil {
 		return nil, aefire.NewHttpError(500, err)
 	}
 
 	return b, err
 }
-
-

@@ -2,6 +2,7 @@ package pb_cashbill
 
 import (
 	"errors"
+	"fmt"
 	"github.com/theorders/aefire"
 	"github.com/theorders/popbill"
 	"strings"
@@ -17,6 +18,35 @@ type CashbillIssueV1 struct {
 	Transaction  *popbill.Transaction `json:"transaction" firestore:"transaction"`
 	ServiceFee   int64                `json:"serviceFee" firestore:"serviceFee"`
 	Aid          *string              `json:"aid,omitempty" firestore:"aid,omitempty"`
+}
+
+func (c *CashbillIssueV1) ToIssue() *Issue {
+	var taxationType TaxationType
+
+	if c.Transaction.Sum == c.Transaction.Supply {
+		taxationType = TaxationTypeNoTax
+	} else {
+		taxationType = TaxationTypeWithTax
+	}
+
+	return &Issue{
+		Customer:          Customer{
+			Item:         Item{
+				TaxationType: taxationType,
+				TradeOpt:     c.TradeOpt,
+				TotalAmount:  fmt.Sprintf("%d", c.Transaction.Sum),
+				ItemName:     c.ItemName,
+			},
+			TradeUsage:   c.Usage,
+			IdentityNum:  c.IdentityNum,
+			CustomerName: c.CustomerName,
+		},
+		CorpNum:           "",
+		TradeType:         TradeTypeApproval,
+		SupplyCost:        fmt.Sprintf("%d", c.Transaction.Supply),
+		Tax:               fmt.Sprintf("%d", c.Transaction.VAT),
+		ServiceFee:        "0",
+	}
 }
 
 func (cashbill *CashbillIssueV1) NameOrIdentityNumMasked() string {
