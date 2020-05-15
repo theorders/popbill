@@ -71,6 +71,8 @@ func (i *Issue) Validate() error {
 }
 
 func (i *Issue) Regist(pb *popbill.Client) error {
+	i.TradeType = TradeTypeApproval
+
 	_, err := pb.MethodOverrideRequest(http.MethodPost,
 		popbill.CashbillService,
 		"",
