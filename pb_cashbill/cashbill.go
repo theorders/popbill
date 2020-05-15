@@ -153,3 +153,81 @@ func (b *Cashbill) Revoke(pb *popbill.Client, mgtKey string) (*Cashbill, error) 
 
 	return &revoked, err
 }
+
+
+
+
+
+func Cancel(pb *popbill.Client, mgtKey string) error {
+	_, err := pb.MethodOverrideRequest(
+		http.MethodPost,
+		popbill.CashbillService,
+		mgtKey,
+		nil,
+		"CANCELISSUE")
+
+	return err
+}
+
+func Delete(pb *popbill.Client, mgtKey string) error {
+	_, err := pb.MethodOverrideRequest(
+		http.MethodPost,
+		popbill.CashbillService,
+		mgtKey,
+		nil,
+		"DELETE")
+
+	return err
+}
+
+func  CancelAndDelete(pb *popbill.Client, mgtKey string) error {
+	if err := Cancel(pb, mgtKey); err != nil {
+		return err
+	}
+
+	if err := Delete(pb, mgtKey); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func  Info(pb *popbill.Client, mgtKey string) (b *Cashbill, err error) {
+	res, err := pb.Request(
+		http.MethodGet,
+		popbill.CashbillService,
+		mgtKey,
+		nil,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	b = &Cashbill{}
+	if err := res.ToJSON(b); err != nil {
+		return nil, aefire.NewHttpError(500, err)
+	}
+
+	return b, err
+}
+
+func  Detail(pb *popbill.Client, mgtKey string) (b *Cashbill, err error) {
+	res, err := pb.Request(
+		http.MethodGet,
+		popbill.CashbillService,
+		(mgtKey)+"?Detail",
+		nil,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	b = &Cashbill{}
+	if err := res.ToJSON(b); err != nil {
+		return nil, aefire.NewHttpError(500, err)
+	}
+
+	return b, err
+}

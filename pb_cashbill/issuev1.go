@@ -41,7 +41,6 @@ func (c *CashbillIssueV1) ToIssue() *Issue {
 			IdentityNum:  c.IdentityNum,
 			CustomerName: c.CustomerName,
 		},
-		CorpNum:           "",
 		TradeType:         TradeTypeApproval,
 		SupplyCost:        fmt.Sprintf("%d", c.Transaction.Supply),
 		Tax:               fmt.Sprintf("%d", c.Transaction.VAT),
