@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"time"
 )
 
 type TradeUsage string
@@ -60,12 +59,6 @@ type Cashbill struct {
 	NtsresultDT      string `json:"ntsresultDT,omitempty" firestore:"ntsresultDT"`
 	NtsresultCode    string `json:"ntsresultCode,omitempty" firestore:"ntsresultCode"`
 	NtsresultMessage string `json:"ntsresultMessage,omitempty" firestore:"ntsresultMessage"`
-
-	//캐시빌 값들 legacy
-	UID             string     `json:"uid,omitempty" firestore:"uid"`
-	Memo            string     `json:"memo,omitempty" firestore:"memo"`
-	NTSConfirmNotif bool       `json:"ntsConfirmNotif,omitempty" firestore:"ntsConfirmNotif"`
-	CreatedAt       *time.Time `json:"createdAt,omitempty" firestore:"createdAt"`
 }
 
 type EventMessage struct {
