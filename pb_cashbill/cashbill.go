@@ -127,6 +127,7 @@ func (b *Cashbill) Revoke(pb *popbill.Client, mgtKey string) error {
 		return echo.NewHTTPError(http.StatusPreconditionFailed, "국세청 승인번호와 거래일자가 확정된 영수증만 취소할 수 있습니다")
 	}
 
+	b.TradeType = TradeTypeCancel
 	b.MgtKey = mgtKey
 	b.OrgConfirmNum = b.ConfirmNum
 	b.OrgMgtKey = b.MgtKey
