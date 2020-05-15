@@ -10,7 +10,6 @@ import (
 type Issue struct {
 	Customer
 
-	CorpNum   string    `json:"corpNum" firestore:"corpNum"`
 	TradeType TradeType `json:"tradeType" firestore:"tradeType"`
 
 	//거래관련
