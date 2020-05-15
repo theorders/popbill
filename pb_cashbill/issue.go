@@ -14,10 +14,11 @@ type Issue struct {
 	TradeType TradeType `json:"tradeType" firestore:"tradeType"`
 
 	//거래관련
-	MgtKey     string `json:"mgtKey" firestore:"mgtKey"`
-	SupplyCost string `json:"supplyCost" firestore:"supplyCost"`
-	Tax        string `json:"tax" firestore:"tax"`
-	ServiceFee string `json:"serviceFee" firestore:"serviceFee"`
+	MgtKey      string `json:"mgtKey" firestore:"mgtKey"`
+	SupplyCost  string `json:"supplyCost" firestore:"supplyCost"`
+	Tax         string `json:"tax" firestore:"tax"`
+	ServiceFee  string `json:"serviceFee" firestore:"serviceFee"`
+	OrderNumber string `json:"orderNumber" json:"orderNumber"`
 
 	//발행업첻관련
 	FranchiseCorpNum  string `json:"franchiseCorpNum" firestore:"franchiseCorpNum"`
