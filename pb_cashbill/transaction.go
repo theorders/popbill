@@ -1,4 +1,4 @@
-package popbill
+package pb_cashbill
 
 import (
 	"github.com/theorders/aefire"
@@ -23,26 +23,12 @@ func (trans *Transaction) Sub(target *Transaction) {
 }
 
 
-func TransactionFromSupply(supply int64, taxType TaxType) *Transaction {
-	t := &Transaction{
-		Supply:supply,
-	}
-
-	if taxType == TaxTypeNormal {
-		t.VAT = int64(float64(supply) * 0.1)
-	}
-
-	t.Sum = t.Supply + t.VAT
-
-	return t
-}
-
-func TransactionFromSum(sum int64, taxType TaxType) *Transaction {
+func TransactionFromSum(sum int64, taxationType TaxationType) *Transaction {
 	t := &Transaction{
 		Sum: sum,
 	}
 
-	if taxType == TaxTypeNormal {
+	if taxationType == TaxationTypeWithTax {
 		t.Supply = int64(aefire.Round(float64(sum)/1.1, 0.5))
 		t.VAT = t.Sum - t.Supply
 	} else {

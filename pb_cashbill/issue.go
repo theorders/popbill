@@ -5,6 +5,8 @@ import (
 	"github.com/theorders/aefire"
 	"github.com/theorders/popbill"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 type Issue struct {
@@ -41,9 +43,31 @@ func (i *Issue) Validate() error {
 		return errors.New("고객 식별번호가 없습니다")
 	}
 
+	i.TotalAmount = strings.TrimSpace(i.TotalAmount)
+	i.TotalAmount = strings.ReplaceAll(i.TotalAmount, ",", "")
+
 	if i.TotalAmount == "" {
 		return errors.New("거래금액이 없습니다")
 	}
+
+	totalAmount, err := strconv.Atoi(i.TotalAmount)
+	if err != nil {
+		return errors.New("거래금액이 숫자가 아닙니다")
+	}
+
+	if i.TaxationType == TaxationTypeWithTax && totalAmount > 10 {
+		var supply, tax int
+		supply = (totalAmount / 11) * 10
+		tax = totalAmount - supply
+
+		i.SupplyCost = strconv.Itoa(supply)
+		i.Tax = strconv.Itoa(tax)
+	} else {
+		i.SupplyCost = i.TotalAmount
+		i.Tax = ""
+	}
+
+	i.ServiceFee = "0"
 
 	//{@no.7 tradeUsage} 값이 "소득공제용" 인 경우
 	//└ 주민등록/휴대폰/카드번호(현금영수증 카드)/자진발급용 번호(010-000-1234) 입력
@@ -72,7 +96,6 @@ func (i *Issue) Validate() error {
 
 func (i *Issue) Regist(pb *popbill.Client) error {
 	i.TradeType = TradeTypeApproval
-	i.ServiceFee = "0"
 
 	_, err := pb.MethodOverrideRequest(http.MethodPost,
 		popbill.CashbillService,
