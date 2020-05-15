@@ -131,10 +131,16 @@ func (b *Cashbill) Revoke(pb *popbill.Client, mgtKey string) (*Cashbill, error) 
 
 	revoked = *b
 	revoked.TradeType = TradeTypeCancel
-	revoked.MgtKey = mgtKey
-	revoked.OrgConfirmNum = b.ConfirmNum
+
+
 	revoked.OrgMgtKey = b.MgtKey
+	revoked.OrgConfirmNum = b.ConfirmNum
 	revoked.OrgTradeDate = b.TradeDate
+
+	revoked.MgtKey = mgtKey
+	revoked.ConfirmNum = ""
+	revoked.TradeDate = ""
+	revoked.StateCode = 100
 
 	_, err := pb.MethodOverrideRequest(http.MethodPost,
 		popbill.CashbillService,
