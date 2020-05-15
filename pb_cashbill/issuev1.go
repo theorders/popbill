@@ -1,21 +1,22 @@
-package popbill
+package pb_cashbill
 
 import (
 	"errors"
 	"github.com/theorders/aefire"
+	"github.com/theorders/popbill"
 	"strings"
 )
 
 type CashbillIssueV1 struct {
-	IdentityNum  string       `json:"identityNum" firestore:"identityNum"`
-	Email        string       `json:"email" firestore:"email"`
-	ItemName     string       `json:"itemName" firestore:"itemName"`
-	CustomerName string       `json:"customerName" firestore:"customerName"`
-	Usage        TradeUsage   `json:"usage" firestore:"usage"`
-	TradeOpt     TradeOpt     `json:"tradeOpt,omitempty" firestore:"tradeOpt"` //(필수)
-	Transaction  *Transaction `json:"transaction" firestore:"transaction"`
-	ServiceFee   int64        `json:"serviceFee" firestore:"serviceFee"`
-	Aid          *string      `json:"aid,omitempty" firestore:"aid,omitempty"`
+	IdentityNum  string               `json:"identityNum" firestore:"identityNum"`
+	Email        string               `json:"email" firestore:"email"`
+	ItemName     string               `json:"itemName" firestore:"itemName"`
+	CustomerName string               `json:"customerName" firestore:"customerName"`
+	Usage        TradeUsage           `json:"usage" firestore:"usage"`
+	TradeOpt     TradeOpt             `json:"tradeOpt,omitempty" firestore:"tradeOpt"` //(필수)
+	Transaction  *popbill.Transaction `json:"transaction" firestore:"transaction"`
+	ServiceFee   int64                `json:"serviceFee" firestore:"serviceFee"`
+	Aid          *string              `json:"aid,omitempty" firestore:"aid,omitempty"`
 }
 
 func (cashbill *CashbillIssueV1) NameOrIdentityNumMasked() string {

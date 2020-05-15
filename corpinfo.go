@@ -2,7 +2,6 @@ package popbill
 
 import (
 	"github.com/theorders/aefire"
-	"strconv"
 	"strings"
 )
 
@@ -23,45 +22,6 @@ type CorpInfo struct {
 }
 
 
-func (info *CorpInfo) CashbillTo(mgtKey string, customer CashbillIssueV1, trans *Transaction) *Cashbill {
-	if trans == nil {
-		trans = &Transaction{}
-	}
-
-	taxType := TaxationTypeWithTax
-
-	if trans.VAT == 0 {
-		taxType = TaxationTypeNoTax
-	}
-
-	return &Cashbill{
-		CashbillCustomer: CashbillCustomer{
-			CashbillItem: CashbillItem{
-				TaxationType: taxType,
-				TradeOpt:     customer.TradeOpt,
-				TotalAmount:  strconv.Itoa(int(trans.Sum)),
-				ItemName:     customer.ItemName,
-			},
-			TradeUsage:   customer.Usage,
-			IdentityNum:  customer.IdentityNum,
-			CustomerName: customer.CustomerName,
-		},
-		MgtKey:            mgtKey,
-		Tax:               strconv.Itoa(int(trans.VAT)),
-		SupplyCost:        strconv.Itoa(int(trans.Supply)),
-		ServiceFee:        strconv.Itoa(int(customer.ServiceFee)),
-		FranchiseCorpNum:  info.CorpNum,
-		FranchiseAddr:     info.Addr,
-		FranchiseCEOName:  info.CEOName,
-		FranchiseCorpName: info.CorpOrCeoName(),
-		FranchiseTEL:      aefire.LocalizePhoneNumber(info.TEL, 82),
-		TradeType:         TradeTypeApproval,
-		Email:             customer.Email,
-		OrderNumber:       mgtKey,
-		Aid:               customer.Aid,
-	}
-
-}
 func (info *CorpInfo) JoinParam(linkId, frLinkId string) JoinParam {
 	return JoinParam{
 		CEOName:    info.CEOName,
