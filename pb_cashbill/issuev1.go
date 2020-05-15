@@ -60,7 +60,8 @@ func (customer *CashbillIssueV1) Validate() error {
 	//소득공제용
 	if customer.Usage == TradeUsageIncomeDeduction &&
 		!aefire.ValidateRRN(customer.IdentityNum) &&
-		!aefire.ValidateLocalCellPhoneNumber(customer.IdentityNum) {
+		!aefire.ValidateLocalCellPhoneNumber(customer.IdentityNum)&&
+		(len(customer.IdentityNum) < 13 || len(customer.IdentityNum) > 19) {
 		return errors.New("소득공제용 현금영수증 발행에는 고객 주민등록번호나 휴대전화번호가 필요합니다")
 	}
 	//if customer.Usage == TradeUsageIncomeDeduction &&
@@ -73,8 +74,9 @@ func (customer *CashbillIssueV1) Validate() error {
 	if customer.Usage == TradeUsageProofOfExpenditure &&
 		!aefire.ValidateRRN(customer.IdentityNum) &&
 		!aefire.ValidateLocalCellPhoneNumber(customer.IdentityNum) &&
-		!aefire.ValidateCorpNum(customer.IdentityNum) {
-		return errors.New("소득공제용 현금영수증 발행에는 사업자등록번호, 주민등록번호 혹은 휴대전화번호가 필요합니다")
+		!aefire.ValidateCorpNum(customer.IdentityNum) &&
+		(len(customer.IdentityNum) < 13 || len(customer.IdentityNum) > 19){
+		return errors.New("지출증빙용 현금영수증 발행에는 사업자등록번호, 주민등록번호 혹은 휴대전화번호가 필요합니다")
 	}
 	//if customer.Usage == TradeUsageProofOfExpenditure &&
 	//	!aefire.ValidateRRN(customer.IdentityNum) &&
