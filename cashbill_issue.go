@@ -13,8 +13,8 @@ type CashbillIssueRequest struct {
 	TaxationType `json:"taxationType" json:"taxationType"`        //과세, 비과세
 }
 
-func (r *CashbillIssueRequest) ToCustomer() (c *CashbillCustomer) {
-	c = &CashbillCustomer{
+func (r *CashbillIssueRequest) ToCustomer() (c *CashbillIssueV1) {
+	c = &CashbillIssueV1{
 		IdentityNum:  r.IdentityNum,
 		Email:        r.Email,
 		ItemName:     r.ItemName,

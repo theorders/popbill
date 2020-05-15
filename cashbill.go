@@ -41,26 +41,30 @@ const (
 	SelfIssueUsage = "자진발급"
 )
 
+//type CashbillItem struct {
+//	TaxationType      TaxationType     `json:"taxationType,omitempty" firestore:"taxationType"`         //(필수)
+//	TradeOpt          TradeOpt         `json:"tradeOpt,omitempty" firestore:"tradeOpt"`                 //(필수)
+//	TotalAmount       string           `json:"totalAmount,omitempty" firestore:"totalAmount"`           //(필수)거래금액
+//	ItemName          string           `json:"itemName,omitempty" firestore:"itemName"`
+//}
+
+//TradeUsage string   `json:"tradeUsage" firestore:"tradeUsage"`
+//IdentityNum string  `json:"identityNum" firestore:"identityNum"`
+//CustomerName string `json:"customerName" firestore:"customerName"`
 type Cashbill struct {
-	MgtKey            string           `json:"mgtKey,omitempty" firestore:"mgtKey"` //(필수)파트너 문서관리번호
+	CashbillCustomer
+	MgtKey            string           `json:"mgtKey" firestore:"mgtKey"` //(필수)파트너 문서관리번호
 	ConfirmNum        string           `json:"confirmNum,omitempty" firestore:"confirmNum"`
 	TradeDate         string           `json:"tradeDate,omitempty" firestore:"tradeDate"`
 	TradeType         TradeType        `json:"tradeType,omitempty" firestore:"tradeType"`               //(필수)
-	TradeUsage        TradeUsage       `json:"tradeUsage,omitempty" firestore:"tradeUsage"`             //(필수)
-	TaxationType      TaxationType     `json:"taxationType,omitempty" firestore:"taxationType"`         //(필수)
-	TradeOpt          TradeOpt         `json:"tradeOpt,omitempty" firestore:"tradeOpt"`                 //(필수)
 	SupplyCost        string           `json:"supplyCost,omitempty" firestore:"supplyCost"`             //(필수)공급가액
 	Tax               string           `json:"tax,omitempty" firestore:"tax"`                           //(필수)세액
 	ServiceFee        string           `json:"serviceFee,omitempty" firestore:"serviceFee"`             //(필수)봉사료
-	TotalAmount       string           `json:"totalAmount,omitempty" firestore:"totalAmount"`           //(필수)거래금액
 	FranchiseCorpNum  string           `json:"franchiseCorpNum,omitempty" firestore:"franchiseCorpNum"` //(필수)발행자 사업자번호
 	FranchiseCorpName string           `json:"franchiseCorpName,omitempty" firestore:"franchiseCorpName"`
 	FranchiseCEOName  string           `json:"franchiseCEOName,omitempty" firestore:"franchiseCEOName"`
 	FranchiseAddr     string           `json:"franchiseAddr,omitempty" firestore:"franchiseAddr"`
 	FranchiseTEL      string           `json:"franchiseTEL,omitempty" firestore:"franchiseTEL"`
-	IdentityNum       string           `json:"identityNum,omitempty" firestore:"identityNum"` //(필수)거래처 식별번호
-	CustomerName      string           `json:"customerName,omitempty" firestore:"customerName"`
-	ItemName          string           `json:"itemName,omitempty" firestore:"itemName"`
 	ItemKey           string           `json:"itemKey,omitempty" firestore:"itemKey"`
 	OrderNumber       string           `json:"orderNumber,omitempty" firestore:"orderNumber"`
 	Email             string           `json:"email,omitempty" firestore:"email"`
