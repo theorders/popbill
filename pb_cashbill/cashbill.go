@@ -122,25 +122,28 @@ func (b *Cashbill) TotalAmountValue() int64 {
 	}
 }
 
-func (b *Cashbill) Revoke(pb *popbill.Client, mgtKey string) error {
+func (b *Cashbill) Revoke(pb *popbill.Client, mgtKey string) (*Cashbill, error) {
 	if b.ConfirmNum == "" || b.TradeDate == "" {
-		return echo.NewHTTPError(http.StatusPreconditionFailed, "국세청 승인번호와 거래일자가 확정된 영수증만 취소할 수 있습니다")
+		return nil, echo.NewHTTPError(http.StatusPreconditionFailed, "국세청 승인번호와 거래일자가 확정된 영수증만 취소할 수 있습니다")
 	}
 
-	b.TradeType = TradeTypeCancel
-	b.MgtKey = mgtKey
-	b.OrgConfirmNum = b.ConfirmNum
-	b.OrgMgtKey = b.MgtKey
-	b.OrgTradeDate = b.TradeDate
+	var revoked Cashbill
+
+	revoked = *b
+	revoked.TradeType = TradeTypeCancel
+	revoked.MgtKey = mgtKey
+	revoked.OrgConfirmNum = b.ConfirmNum
+	revoked.OrgMgtKey = b.MgtKey
+	revoked.OrgTradeDate = b.TradeDate
 
 	_, err := pb.MethodOverrideRequest(http.MethodPost,
 		popbill.CashbillService,
 		"",
-		b,
+		&revoked,
 		"REVOKEISSUE")
 
 	//now := time.Now()
 	//revoke.CreatedAt = &now
 
-	return err
+	return &revoked, err
 }
