@@ -15,23 +15,24 @@ type Issue struct {
 	TradeType TradeType `json:"tradeType" firestore:"tradeType"`
 
 	//거래관련
-	MgtKey      string `json:"mgtKey" firestore:"mgtKey"`
+	MgtKey      string `json:"mgtKey" firestore:"mgtKey,omitempty"`
 	SupplyCost  string `json:"supplyCost" firestore:"supplyCost"`
 	Tax         string `json:"tax" firestore:"tax"`
 	ServiceFee  string `json:"serviceFee" firestore:"serviceFee"`
 	OrderNumber string `json:"orderNumber" json:"orderNumber"`
 
 	//발행업첻관련
-	FranchiseCorpNum  string `json:"franchiseCorpNum" firestore:"franchiseCorpNum"`
-	FranchiseCorpName string `json:"franchiseCorpName" firestore:"franchiseCorpName"`
-	FranchiseCEOName  string `json:"franchiseCEOName" firestore:"franchiseCEOName"`
-	FranchiseAddr     string `json:"franchiseAddr" firestore:"franchiseAddr"`
-	FranchiseTEL      string `json:"franchiseTEL" firestore:"franchiseTEL"`
+	FranchiseCorpNum  string `json:"franchiseCorpNum" firestore:"franchiseCorpNum,omitempty"`
+	FranchiseCorpName string `json:"franchiseCorpName" firestore:"franchiseCorpName,omitempty"`
+	FranchiseCEOName  string `json:"franchiseCEOName" firestore:"franchiseCEOName,omitempty"`
+	FranchiseAddr     string `json:"franchiseAddr" firestore:"franchiseAddr,omitempty"`
+	FranchiseTEL      string `json:"franchiseTEL" firestore:"franchiseTEL,omitempty"`
 
 	//취소발행 관련
-	OrgMgtKey     string `json:"orgMgtKey,omitempty" firestore:"orgMgtKey,omitempty"` //(필수)파트너 문서관리번호
-	OrgConfirmNum string `json:"orgConfirmNum,omitempty" firestore:"orgConfirmNum,omitempty"`
-	OrgTradeDate  string `json:"orgTradeDate,omitempty" firestore:"orgTradeDate,omitempty"`
+	CancelType    CancelType `json:"cancelType,omitempty" json:"cancelType,omitempty"`
+	OrgMgtKey     string     `json:"orgMgtKey,omitempty" firestore:"orgMgtKey,omitempty"` //(필수)파트너 문서관리번호
+	OrgConfirmNum string     `json:"orgConfirmNum,omitempty" firestore:"orgConfirmNum,omitempty"`
+	OrgTradeDate  string     `json:"orgTradeDate,omitempty" firestore:"orgTradeDate,omitempty"`
 }
 
 func (i *Issue) Validate() error {
@@ -105,4 +106,3 @@ func (i *Issue) Regist(pb *popbill.Client) error {
 
 	return err
 }
-
