@@ -67,7 +67,7 @@ type EventMessage struct {
 	EventDT          string           `json:"eventDT"`
 	MgtKey           string           `json:"mgtKey"`
 	StateMemo        string           `json:"stateMemo"`
-	StateCode        int64            `json:"stateCode"`
+	StateCode        float64            `json:"stateCode"`
 	StateDT          string           `json:"stateDT"`
 	ConfirmNum       string           `json:"confirmNum"`
 	NtsresultCode    string           `json:"ntsresultCode"`
