@@ -19,7 +19,7 @@ type Issue struct {
 	SupplyCost  string `json:"supplyCost" firestore:"supplyCost"`
 	Tax         string `json:"tax" firestore:"tax"`
 	ServiceFee  string `json:"serviceFee" firestore:"serviceFee"`
-	OrderNumber string `json:"orderNumber" json:"orderNumber"`
+	OrderNumber string `json:"orderNumber" firestore:"orderNumber"`
 
 	//발행업첻관련
 	FranchiseCorpNum  string `json:"franchiseCorpNum" firestore:"franchiseCorpNum,omitempty"`
@@ -29,7 +29,7 @@ type Issue struct {
 	FranchiseTEL      string `json:"franchiseTEL" firestore:"franchiseTEL,omitempty"`
 
 	//취소발행 관련
-	CancelType    CancelType `json:"cancelType,omitempty" json:"cancelType,omitempty"`
+	CancelType    CancelType `json:"cancelType,omitempty" firestore:"cancelType,omitempty"`
 	OrgMgtKey     string     `json:"orgMgtKey,omitempty" firestore:"orgMgtKey,omitempty"` //(필수)파트너 문서관리번호
 	OrgConfirmNum string     `json:"orgConfirmNum,omitempty" firestore:"orgConfirmNum,omitempty"`
 	OrgTradeDate  string     `json:"orgTradeDate,omitempty" firestore:"orgTradeDate,omitempty"`
