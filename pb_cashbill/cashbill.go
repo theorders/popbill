@@ -131,6 +131,7 @@ func (b *Cashbill) Revoke(pb *popbill.Client, mgtKey string) (*Cashbill, error) 
 
 	revoked = *b
 	revoked.TradeType = TradeTypeCancel
+	revoked.CancelType = CancelTypeTrade
 
 	revoked.OrgMgtKey = b.MgtKey
 	revoked.OrgConfirmNum = b.ConfirmNum
