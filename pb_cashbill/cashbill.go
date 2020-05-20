@@ -49,10 +49,10 @@ type Cashbill struct {
 	TradeDate  string `json:"tradeDate,omitempty" firestore:"tradeDate"`
 
 	//팝빌 값들
-	ItemKey   string `json:"itemKey,omitempty" firestore:"itemKey"`
-	StateMemo string `json:"stateMemo,omitempty" firestore:"stateMemo"`
-	StateCode int64  `json:"stateCode,omitempty" firestore:"stateCode"`
-	StateDT   string `json:"stateDT,omitempty" firestore:"stateDT"`
+	ItemKey   string  `json:"itemKey,omitempty" firestore:"itemKey"`
+	StateMemo string  `json:"stateMemo,omitempty" firestore:"stateMemo"`
+	StateCode float64 `json:"stateCode,omitempty" firestore:"stateCode"`
+	StateDT   string  `json:"stateDT,omitempty" firestore:"stateDT"`
 
 	//국세청 값들
 	NtssendDT        string `json:"ntssendDT,omitempty" firestore:"ntssendDT"`
@@ -132,7 +132,6 @@ func (b *Cashbill) Revoke(pb *popbill.Client, mgtKey string) (*Cashbill, error) 
 	revoked = *b
 	revoked.TradeType = TradeTypeCancel
 
-
 	revoked.OrgMgtKey = b.MgtKey
 	revoked.OrgConfirmNum = b.ConfirmNum
 	revoked.OrgTradeDate = b.TradeDate
@@ -153,10 +152,6 @@ func (b *Cashbill) Revoke(pb *popbill.Client, mgtKey string) (*Cashbill, error) 
 
 	return &revoked, err
 }
-
-
-
-
 
 func Cancel(pb *popbill.Client, mgtKey string) error {
 	_, err := pb.MethodOverrideRequest(
@@ -180,7 +175,7 @@ func Delete(pb *popbill.Client, mgtKey string) error {
 	return err
 }
 
-func  CancelAndDelete(pb *popbill.Client, mgtKey string) error {
+func CancelAndDelete(pb *popbill.Client, mgtKey string) error {
 	if err := Cancel(pb, mgtKey); err != nil {
 		return err
 	}
@@ -192,7 +187,7 @@ func  CancelAndDelete(pb *popbill.Client, mgtKey string) error {
 	return nil
 }
 
-func  Info(pb *popbill.Client, mgtKey string) (b *Cashbill, err error) {
+func Info(pb *popbill.Client, mgtKey string) (b *Cashbill, err error) {
 	res, err := pb.Request(
 		http.MethodGet,
 		popbill.CashbillService,
@@ -212,7 +207,7 @@ func  Info(pb *popbill.Client, mgtKey string) (b *Cashbill, err error) {
 	return b, err
 }
 
-func  Detail(pb *popbill.Client, mgtKey string) (b *Cashbill, err error) {
+func Detail(pb *popbill.Client, mgtKey string) (b *Cashbill, err error) {
 	res, err := pb.Request(
 		http.MethodGet,
 		popbill.CashbillService,
