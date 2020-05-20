@@ -44,10 +44,12 @@ const (
 
 type Cashbill struct {
 	Issue
+	StateEvent
 
-	ConfirmNum string `json:"confirmNum,omitempty" firestore:"confirmNum"`
-	TradeDate  string `json:"tradeDate,omitempty" firestore:"tradeDate"`
+	TradeDate string `json:"tradeDate,omitempty" firestore:"tradeDate"`
+}
 
+type StateEvent struct {
 	//팝빌 값들
 	ItemKey   string  `json:"itemKey,omitempty" firestore:"itemKey"`
 	StateMemo string  `json:"stateMemo,omitempty" firestore:"stateMemo"`
@@ -55,26 +57,19 @@ type Cashbill struct {
 	StateDT   string  `json:"stateDT,omitempty" firestore:"stateDT"`
 
 	//국세청 값들
+	ConfirmNum       string `json:"confirmNum,omitempty" firestore:"confirmNum"`
 	NtssendDT        string `json:"ntssendDT,omitempty" firestore:"ntssendDT"`
 	NtsresultDT      string `json:"ntsresultDT,omitempty" firestore:"ntsresultDT"`
 	NtsresultCode    string `json:"ntsresultCode,omitempty" firestore:"ntsresultCode"`
 	NtsresultMessage string `json:"ntsresultMessage,omitempty" firestore:"ntsresultMessage"`
 }
-
 type EventMessage struct {
-	CorpNum          string           `json:"corpNum"`
-	EventType        WebHookEventType `json:"eventType"`
-	EventDT          string           `json:"eventDT"`
-	MgtKey           string           `json:"mgtKey"`
-	StateMemo        string           `json:"stateMemo"`
-	StateCode        float64            `json:"stateCode"`
-	StateDT          string           `json:"stateDT"`
-	ConfirmNum       string           `json:"confirmNum"`
-	NtsresultCode    string           `json:"ntsresultCode"`
-	NtssendDT        string           `json:"ntssendDT"`
-	NtsresultDT      string           `json:"ntsresultDT"`
-	NtsresultMessage string           `json:"ntsresultMessage"`
-	ItemKey          string           `json:"itemKey"`
+	StateEvent
+
+	MgtKey    string           `json:"mgtKey" firestore:"-"`
+	CorpNum   string           `json:"corpNum" firestore:"-"`
+	EventType WebHookEventType `json:"eventType" firestore:"-"`
+	EventDT   string           `json:"eventDT" firestore:"-"`
 }
 
 func (b *Cashbill) IdentityNumMasked() string {
