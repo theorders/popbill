@@ -12,14 +12,14 @@ import (
 type Issue struct {
 	Customer
 
-	TradeType TradeType `json:"tradeType" firestore:"tradeType"`
+	TradeType TradeType `json:"tradeType,omitempty" firestore:"tradeType,omitempty"`
 
 	//거래관련
-	MgtKey      string `json:"mgtKey" firestore:"mgtKey,omitempty"`
-	SupplyCost  string `json:"supplyCost" firestore:"supplyCost"`
-	Tax         string `json:"tax" firestore:"tax"`
-	ServiceFee  string `json:"serviceFee" firestore:"serviceFee"`
-	OrderNumber string `json:"orderNumber" firestore:"orderNumber"`
+	MgtKey      string `json:"mgtKey,omitempty" firestore:"mgtKey,omitempty"`
+	SupplyCost  string `json:"supplyCost,omitempty" firestore:"supplyCost,omitempty"`
+	Tax         string `json:"tax,omitempty" firestore:"tax,omitempty"`
+	ServiceFee  string `json:"serviceFee,omitempty" firestore:"serviceFee,omitempty"`
+	OrderNumber string `json:"orderNumber,omitempty" firestore:"orderNumber,omitempty"`
 
 	//발행업첻관련
 	FranchiseCorpNum  string `json:"franchiseCorpNum" firestore:"franchiseCorpNum,omitempty"`

@@ -51,17 +51,17 @@ type Cashbill struct {
 
 type StateEvent struct {
 	//팝빌 값들
-	ItemKey   string  `json:"itemKey,omitempty" firestore:"itemKey"`
-	StateMemo string  `json:"stateMemo,omitempty" firestore:"stateMemo"`
-	StateCode float64 `json:"stateCode,omitempty" firestore:"stateCode"`
-	StateDT   string  `json:"stateDT,omitempty" firestore:"stateDT"`
+	ItemKey   string  `json:"itemKey,omitempty" firestore:"itemKey,omitempty"`
+	StateMemo string  `json:"stateMemo,omitempty" firestore:"stateMemo,omitempty"`
+	StateCode float64 `json:"stateCode,omitempty" firestore:"stateCode,omitempty"`
+	StateDT   string  `json:"stateDT,omitempty" firestore:"stateDT,omitempty"`
 
 	//국세청 값들
-	ConfirmNum       string `json:"confirmNum,omitempty" firestore:"confirmNum"`
-	NtssendDT        string `json:"ntssendDT,omitempty" firestore:"ntssendDT"`
-	NtsresultDT      string `json:"ntsresultDT,omitempty" firestore:"ntsresultDT"`
-	NtsresultCode    string `json:"ntsresultCode,omitempty" firestore:"ntsresultCode"`
-	NtsresultMessage string `json:"ntsresultMessage,omitempty" firestore:"ntsresultMessage"`
+	ConfirmNum       string `json:"confirmNum,omitempty" firestore:"confirmNum,omitempty"`
+	NtssendDT        string `json:"ntssendDT,omitempty" firestore:"ntssendDT,omitempty"`
+	NtsresultDT      string `json:"ntsresultDT,omitempty" firestore:"ntsresultDT,omitempty"`
+	NtsresultCode    string `json:"ntsresultCode,omitempty" firestore:"ntsresultCode,omitempty"`
+	NtsresultMessage string `json:"ntsresultMessage,omitempty" firestore:"ntsresultMessage,omitempty"`
 }
 type EventMessage struct {
 	StateEvent
