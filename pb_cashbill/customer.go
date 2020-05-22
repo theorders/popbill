@@ -8,3 +8,12 @@ type Customer struct {
 	CustomerName string     `json:"customerName" firestore:"customerName"`
 	Email        string     `json:"email,omitempty" firestore:"email,omitempty"`
 }
+
+
+func (c *Customer) CustomerNameOrIdentityNum() string {
+	if c.CustomerName != ""{
+		return c.CustomerName
+	} else {
+		return c.IdentityNum
+	}
+}
