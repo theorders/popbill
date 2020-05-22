@@ -22,11 +22,11 @@ type Issue struct {
 	OrderNumber string `json:"orderNumber,omitempty" firestore:"orderNumber,omitempty"`
 
 	//발행업첻관련
-	FranchiseCorpNum  string `json:"franchiseCorpNum" firestore:"franchiseCorpNum,omitempty"`
-	FranchiseCorpName string `json:"franchiseCorpName" firestore:"franchiseCorpName,omitempty"`
-	FranchiseCEOName  string `json:"franchiseCEOName" firestore:"franchiseCEOName,omitempty"`
-	FranchiseAddr     string `json:"franchiseAddr" firestore:"franchiseAddr,omitempty"`
-	FranchiseTEL      string `json:"franchiseTEL" firestore:"franchiseTEL,omitempty"`
+	FranchiseCorpNum  string `json:"franchiseCorpNum,omitempty" firestore:"franchiseCorpNum,omitempty"`
+	FranchiseCorpName string `json:"franchiseCorpName,omitempty" firestore:"franchiseCorpName,omitempty"`
+	FranchiseCEOName  string `json:"franchiseCEOName,omitempty" firestore:"franchiseCEOName,omitempty"`
+	FranchiseAddr     string `json:"franchiseAddr,omitempty" firestore:"franchiseAddr,omitempty"`
+	FranchiseTEL      string `json:"franchiseTEL,omitempty" firestore:"franchiseTEL,omitempty"`
 
 	//취소발행 관련
 	CancelType    CancelType `json:"cancelType,omitempty" firestore:"cancelType,omitempty"`
