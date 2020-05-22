@@ -65,7 +65,7 @@ func (i *Issue) Validate() error {
 		i.Tax = strconv.Itoa(tax)
 	} else {
 		i.SupplyCost = i.TotalAmount
-		i.Tax = ""
+		i.Tax = "0"
 	}
 
 	i.ServiceFee = "0"
