@@ -31,16 +31,23 @@ func (token SessionToken) ExpiresAt() time.Time {
 	return t
 }
 
+var keyMutex = aefire.KeyMutax{}
+
 func (c *Client) ServiceToken(service string) (token *SessionToken, err error) {
 	if service == JoinService {
 		service = TaxinvoiceService
 	}
 
 	tokenKey := fmt.Sprintf("LINKHUB_%t_%s_%s_TOKEN", c.Test, c.CorpNum, service)
+
+	//defer keyMutex.UnLock(tokenKey)
+	//keyMutex.Lock(tokenKey)
+
 	keyPath := "/tmp/" + tokenKey
 
 	if _, err := os.Stat(keyPath); err == nil {
 		//ods.DebugLog("key exists in tmp dir")
+
 
 		b, err := ioutil.ReadFile(keyPath)
 		token = &SessionToken{}
@@ -50,6 +57,7 @@ func (c *Client) ServiceToken(service string) (token *SessionToken, err error) {
 
 			//ods.DebugLog("token.ExpiresAt()=" + token.ExpiresAt().String())
 			if token.ExpiresAt().After(time.Now().Add(time.Minute)){
+				println("key exists in tmp dir")
 				return token, nil
 			} else {
 				aefire.LogIfError(os.Remove(keyPath))
@@ -80,6 +88,8 @@ func (c *Client) ServiceToken(service string) (token *SessionToken, err error) {
 	token, err = builder.Build("*")
 
 	aefire.LogIfError(ioutil.WriteFile(keyPath, []byte(aefire.ToJson(*token)), os.ModePerm))
+
+	println("new key issued")
 
 	return
 }
