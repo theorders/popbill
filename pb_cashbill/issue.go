@@ -40,6 +40,10 @@ func (i *Issue) Validate() error {
 		return errors.New("발급용도가 지정되지 않았습니다")
 	}
 
+	i.IdentityNum = strings.ReplaceAll(i.IdentityNum, "-", "")
+	i.IdentityNum = strings.ReplaceAll(i.IdentityNum, " ", "")
+	i.IdentityNum = strings.ReplaceAll(i.IdentityNum, ",", "")
+
 	if i.IdentityNum == "" {
 		return errors.New("고객 식별번호가 없습니다")
 	}
