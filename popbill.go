@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/theorders/aefire"
 	"net/http"
+	"strings"
 )
 
 type Client struct {
@@ -18,6 +19,11 @@ type Client struct {
 }
 
 func NewClient(c context.Context, test bool, linkId, corpNum, secret string) *Client {
+	corpNum = strings.ReplaceAll(corpNum, "-", "")
+	if len(corpNum) != 10 {
+		panic("popbill.NewClient:" + corpNum +" 은 사업자 등록번호가 아닙니다")
+	}
+
 	return &Client{
 		Context: c,
 		Test:    test,
