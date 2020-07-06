@@ -35,7 +35,7 @@ type Issue struct {
 	OrgTradeDate  string     `json:"orgTradeDate,omitempty" firestore:"orgTradeDate,omitempty"`
 }
 
-func (i *Issue) Validate() error {
+func (i *Issue) Validate(cd *popbill.CloseDown) error {
 	if i.TradeUsage == "" {
 		return errors.New("발급용도가 지정되지 않았습니다")
 	}
@@ -58,6 +58,10 @@ func (i *Issue) Validate() error {
 	totalAmount, err := strconv.Atoi(i.TotalAmount)
 	if err != nil {
 		return errors.New("거래금액이 숫자가 아닙니다")
+	}
+
+	if cd.TaxType != popbill.TaxTypeNormal {
+		i.TaxationType = TaxationTypeNoTax
 	}
 
 	if i.TaxationType == TaxationTypeWithTax && totalAmount > 10 {

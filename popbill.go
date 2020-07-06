@@ -93,7 +93,11 @@ func (c *Client) Request(method, service, path string, body interface{}, headers
 
 
 	if res.Response().StatusCode / 100 == 4 ||  defaultResponse.Code < 0 {
-		return res, echo.NewHTTPError(400, defaultResponse.Message)
+		if defaultResponse.Code == -14000003 {
+		return res, echo.NewHTTPError(404, defaultResponse.Message)
+		} else {
+			return res, echo.NewHTTPError(400, defaultResponse.Message)
+		}
 	}
 
 	return res, nil
