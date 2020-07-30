@@ -87,7 +87,7 @@ func (c *Client) ServiceToken(service string) (token *SessionToken, err error) {
 
 	aefire.LogIfError(ioutil.WriteFile(keyPath, []byte(aefire.ToJson(*token)), os.ModePerm))
 
-	println("popbill: new key issued")
+	//println("popbill: new key issued")
 
 	return
 }
