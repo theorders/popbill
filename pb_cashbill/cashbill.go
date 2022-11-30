@@ -1,7 +1,6 @@
 package pb_cashbill
 
 import (
-	"github.com/labstack/echo/v4"
 	"github.com/theorders/aefire"
 	"github.com/theorders/popbill"
 	"net/http"
@@ -118,9 +117,9 @@ func (b *Cashbill) TotalAmountValue() int64 {
 }
 
 func (b *Cashbill) Revoke(pb *popbill.Client, mgtKey string) (*Cashbill, error) {
-	if b.ConfirmNum == "" || b.TradeDate == "" {
-		return nil, echo.NewHTTPError(http.StatusPreconditionFailed, "국세청 승인번호와 거래일자가 확정된 영수증만 취소할 수 있습니다")
-	}
+	//if b.ConfirmNum == "" || b.TradeDate == "" {
+	//	return nil, echo.NewHTTPError(http.StatusPreconditionFailed, "국세청 승인번호와 거래일자가 확정된 영수증만 취소할 수 있습니다")
+	//}
 
 	var revoked Cashbill
 
