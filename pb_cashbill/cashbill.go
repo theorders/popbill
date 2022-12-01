@@ -46,6 +46,7 @@ type Cashbill struct {
 	StateEvent
 
 	TradeDate string `json:"tradeDate,omitempty" firestore:"tradeDate"`
+	TradeDT   string `json:"tradeDT,omitempty" firestore:"tradeDT"`
 }
 
 type StateEvent struct {
