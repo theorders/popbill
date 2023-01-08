@@ -22,6 +22,7 @@ type Issue struct {
 	OrderNumber string `json:"orderNumber,omitempty" firestore:"orderNumber,omitempty"`
 
 	//발행업첻관련
+	FranchiseCorpNum  string `json:"franchiseCorpNum,omitempty" firestore:"franchiseCorpNum,omitempty"`
 	FranchiseCorpName string `json:"franchiseCorpName,omitempty" firestore:"franchiseCorpName,omitempty"`
 	FranchiseCEOName  string `json:"franchiseCEOName,omitempty" firestore:"franchiseCEOName,omitempty"`
 	FranchiseAddr     string `json:"franchiseAddr,omitempty" firestore:"franchiseAddr,omitempty"`
