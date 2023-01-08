@@ -66,10 +66,22 @@ type StateEvent struct {
 type EventMessage struct {
 	StateEvent
 
-	MgtKey    string           `json:"mgtKey" firestore:"-"`
-	CorpNum   string           `json:"corpNum" firestore:"-"`
-	EventType WebHookEventType `json:"eventType" firestore:"-"`
-	EventDT   string           `json:"eventDT" firestore:"-"`
+	MgtKey           string           `json:"mgtKey" firestore:"-"`
+	CorpNum          string           `json:"corpNum,omitempty" firestore:"-"`
+	FranchiseCorpNum string           `json:"franchiseCorpNum,omitempty" firestore:"-"`
+	EventType        WebHookEventType `json:"eventType" firestore:"-"`
+	EventDT          string           `json:"eventDT" firestore:"-"`
+	TradeDate        string           `json:"tradeDate,omitempty" firestore:"-"`
+}
+
+func (m *EventMessage) GetCorpNum() string {
+	if m.CorpNum != "" {
+		return m.CorpNum
+	} else if m.FranchiseCorpNum != "" {
+		return m.FranchiseCorpNum
+	} else {
+		return ""
+	}
 }
 
 func (b *Cashbill) IdentityNumMasked() string {
@@ -214,6 +226,8 @@ func Detail(pb *popbill.Client, mgtKey string) (b *Cashbill, err error) {
 	if err != nil {
 		return nil, err
 	}
+
+	println(res.String())
 
 	b = &Cashbill{}
 	if err := res.ToJSON(b); err != nil {
