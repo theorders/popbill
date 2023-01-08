@@ -45,16 +45,17 @@ type Cashbill struct {
 	Issue
 	StateEvent
 
-	TradeDate string `json:"tradeDate,omitempty" firestore:"tradeDate"`
-	TradeDT   string `json:"tradeDT,omitempty" firestore:"tradeDT"`
+	TradeDT string `json:"tradeDT,omitempty" firestore:"tradeDT"`
 }
 
 type StateEvent struct {
 	//팝빌 값들
-	ItemKey   string  `json:"itemKey,omitempty" firestore:"itemKey,omitempty"`
-	StateMemo string  `json:"stateMemo,omitempty" firestore:"stateMemo,omitempty"`
-	StateCode float64 `json:"stateCode,omitempty" firestore:"stateCode,omitempty"`
-	StateDT   string  `json:"stateDT,omitempty" firestore:"stateDT,omitempty"`
+	ItemKey          string  `json:"itemKey,omitempty" firestore:"itemKey,omitempty"`
+	StateMemo        string  `json:"stateMemo,omitempty" firestore:"stateMemo,omitempty"`
+	StateCode        float64 `json:"stateCode,omitempty" firestore:"stateCode,omitempty"`
+	StateDT          string  `json:"stateDT,omitempty" firestore:"stateDT,omitempty"`
+	TradeDate        string  `json:"tradeDate,omitempty" firestore:"-"`
+	FranchiseCorpNum string  `json:"franchiseCorpNum,omitempty" firestore:"franchiseCorpNum,omitempty"`
 
 	//국세청 값들
 	ConfirmNum       string `json:"confirmNum,omitempty" firestore:"confirmNum,omitempty"`
@@ -66,12 +67,10 @@ type StateEvent struct {
 type EventMessage struct {
 	StateEvent
 
-	MgtKey           string           `json:"mgtKey" firestore:"-"`
-	CorpNum          string           `json:"corpNum,omitempty" firestore:"-"`
-	FranchiseCorpNum string           `json:"franchiseCorpNum,omitempty" firestore:"-"`
-	EventType        WebHookEventType `json:"eventType" firestore:"-"`
-	EventDT          string           `json:"eventDT" firestore:"-"`
-	TradeDate        string           `json:"tradeDate,omitempty" firestore:"-"`
+	MgtKey    string           `json:"mgtKey" firestore:"-"`
+	CorpNum   string           `json:"corpNum,omitempty" firestore:"-"`
+	EventType WebHookEventType `json:"eventType" firestore:"-"`
+	EventDT   string           `json:"eventDT" firestore:"-"`
 }
 
 func (m *EventMessage) GetCorpNum() string {
